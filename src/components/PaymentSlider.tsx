@@ -1,181 +1,138 @@
-import { useState } from "react";
-import { Smartphone, Shuffle, FileText, Repeat, Lock, BarChart2, Cpu, Landmark, ShieldAlert, Globe2 } from "lucide-react";
-import { ServiceDetailModal } from "./ServiceDetailModal";
-import shieldLogo from "@/assets/RedShield.png";
+import { useEffect, useMemo, useState } from "react";
+import {
+  Smartphone,
+  Shuffle,
+  FileText,
+  Repeat,
+  Lock,
+  BarChart2,
+  Cpu,
+  Landmark,
+  ShieldAlert,
+  Globe2,
+} from "lucide-react";
 
-const services = [
-  { 
-    icon: Smartphone, 
-    name: "Mobile & Contactless", 
-    position: 1, 
-    description: "Take payments anywhere, from any device.",
-    features: [
-      "Tap to Pay and digital wallet support (Apple Pay, Google Pay).",
-      "Mobile checkout on phones and tablets, no extra hardware required.",
-      "Syncs automatically with your Merchant Haus dashboard."
+/**
+ * ImprovedPaymentSlider
+ *
+ * This component implements a 3D carousel with a single set of cards that
+ * rotate around a central axis. As cards move to the far side of the
+ * carousel they automatically drop behind the central shield (lower z‑index)
+ * and then return to the front when they come back around. The rotation
+ * advances automatically on a timer and can also be controlled by clicking
+ * any card. Cards animate smoothly when the active index changes. There is
+ * no reliance on duplicated markup or brittle CSS selectors; z‑ordering is
+ * computed dynamically in JavaScript based off of each card’s current
+ * rotational position.
+ */
+export default function ImprovedPaymentSlider() {
+  // Define the services to show in the carousel. Each entry contains an icon,
+  // title, description and some optional features/benefits. You can edit
+  // these values to customise the slider for your own use‑case.
+  const services = useMemo(
+    () => [
+      {
+        icon: Smartphone,
+        name: "Mobile & Contactless",
+        description: "Take payments anywhere, from any device.",
+      },
+      {
+        icon: Shuffle,
+        name: "Omnichannel Payments",
+        description:
+          "Unified payment experiences across every channel.",
+      },
+      {
+        icon: FileText,
+        name: "Payment Flexibility",
+        description: "Every way your customers want to pay.",
+      },
+      {
+        icon: Repeat,
+        name: "Subscriptions & Recurring Billing",
+        description: "Predictable revenue, simplified.",
+      },
+      {
+        icon: Lock,
+        name: "Fraud & Security",
+        description: "Advanced protection built into every transaction.",
+      },
+      {
+        icon: BarChart2,
+        name: "Reporting & Insights",
+        description: "Clear data for smarter decisions.",
+      },
+      {
+        icon: Cpu,
+        name: "Modern POS",
+        description: "Smart terminals and software that adapt to your business.",
+      },
+      {
+        icon: Landmark,
+        name: "Integrations",
+        description: "Works with the tools you already trust.",
+      },
+      {
+        icon: ShieldAlert,
+        name: "Developer Tools",
+        description: "Build with confidence.",
+      },
+      {
+        icon: Globe2,
+        name: "Global Reach",
+        description: "Scale confidently across borders.",
+      },
     ],
-    benefits: [
-      "Serve customers on the go — at events, deliveries, or in the field.",
-      "Start accepting payments in minutes, no setup pain.",
-      "Keep every sale visible and connected in real time."
-    ]
-  },
-  { 
-    icon: Shuffle, 
-    name: "Omnichannel Payments", 
-    position: 2, 
-    description: "Unified payment experiences across every channel.",
-    features: [
-      "Accept in-person, online, in-app, or over-the-phone payments from one platform.",
-      "Centralized reporting for every transaction and location.",
-      "Seamless connection between POS, web, and mobile checkouts."
-    ],
-    benefits: [
-      "Simplify operations with one payment view across all channels.",
-      "Offer customers flexibility without adding systems or vendors.",
-      "Improve consistency and trust across every touchpoint."
-    ]
-  },
-  { 
-    icon: FileText, 
-    name: "Payment Flexibility", 
-    position: 3, 
-    description: "Every way your customers want to pay.",
-    features: [
-      "Accept credit, debit, ACH, and digital wallets.",
-      "Customizable surcharging and convenience fee settings (where compliant).",
-      "Stored credentials and tokenized repeat payments."
-    ],
-    benefits: [
-      "Never lose a sale to limited options.",
-      "Reduce processing friction while staying compliant.",
-      "Offer smooth checkout experiences that increase conversion."
-    ]
-  },
-  { 
-    icon: Repeat, 
-    name: "Subscriptions & Recurring Billing", 
-    position: 4, 
-    description: "Predictable revenue, simplified.",
-    features: [
-      "Automate billing cycles, renewals, and retries for failed payments.",
-      "Manage plans and customer profiles from your portal.",
-      "Detailed tracking for recurring revenue streams."
-    ],
-    benefits: [
-      "Save time on manual invoicing and follow-ups.",
-      "Improve customer retention with reliable renewals.",
-      "Keep your cash flow steady and predictable."
-    ]
-  },
-  { 
-    icon: Lock, 
-    name: "Fraud & Security", 
-    position: 5, 
-    description: "Advanced protection built into every transaction.",
-    features: [
-      "Real-time fraud detection using AI-driven risk scoring.",
-      "End-to-end encryption and tokenization for sensitive data.",
-      "PCI DSS and 3D Secure compliance baked in."
-    ],
-    benefits: [
-      "Protect your revenue from fraud and chargebacks.",
-      "Build customer trust through visible, frictionless security.",
-      "Save time with automated monitoring and fewer disputes."
-    ]
-  },
-  { 
-    icon: BarChart2, 
-    name: "Reporting & Insights", 
-    position: 6, 
-    description: "Clear data for smarter decisions.",
-    features: [
-      "Real-time transaction and settlement dashboards.",
-      "Downloadable reports and trend analysis.",
-      "Chargeback and refund visibility in one place."
-    ],
-    benefits: [
-      "See what's driving your sales in real time.",
-      "Track performance across channels, teams, or locations.",
-      "Make data-backed decisions that grow revenue."
-    ]
-  },
-  { 
-    icon: Cpu, 
-    name: "Modern POS", 
-    position: 7, 
-    description: "Smart terminals and software that adapt to your business.",
-    features: [
-      "EMV, chip, and NFC contactless support.",
-      "Connects directly to your Merchant Haus account.",
-      "Choose from countertop, mobile, or cloud-based POS setups."
-    ],
-    benefits: [
-      "Speed up checkouts and reduce errors.",
-      "Manage all terminals and devices from one dashboard.",
-      "Deliver a modern checkout that matches your brand's polish."
-    ]
-  },
-  { 
-    icon: Landmark, 
-    name: "Integrations", 
-    position: 8, 
-    description: "Works with the tools you already trust.",
-    features: [
-      "Compatible with major CRMs, POS systems, and accounting software.",
-      "API and plugin-based connections for fast setup.",
-      "Real-time data sync across platforms."
-    ],
-    benefits: [
-      "Eliminate double entry and manual reconciliation.",
-      "Keep payments, customer info, and reports aligned.",
-      "Save hours of admin time every week."
-    ]
-  },
-  { 
-    icon: ShieldAlert, 
-    name: "Developer Tools", 
-    position: 9, 
-    description: "Build with confidence.",
-    features: [
-      "RESTful APIs, SDKs, and sandbox environments.",
-      "Secure tokenization and webhook support.",
-      "White-label flexibility for branded integrations."
-    ],
-    benefits: [
-      "Embed payments directly into your platform.",
-      "Keep control of your experience without building from scratch.",
-      "Launch faster with detailed docs and dedicated support."
-    ]
-  },
-  { 
-    icon: Globe2, 
-    name: "Global Reach", 
-    position: 10, 
-    description: "Scale confidently across borders.",
-    features: [
-      "Accept payments in multiple currencies.",
-      "Cross-border processing with built-in compliance.",
-      "Global acquirer network via NMI infrastructure."
-    ],
-    benefits: [
-      "Expand into new markets without operational complexity.",
-      "Stay compliant with international payment standards.",
-      "Build a global brand with local trust."
-    ]
-  },
-];
+    []
+  );
 
-export const PaymentSlider = () => {
-  const [selectedService, setSelectedService] = useState<typeof services[0] | null>(null);
-  const [isRotating, setIsRotating] = useState(false);
+  // The current index of the item that is considered to be at the front of
+  // the carousel. Updating this value triggers a re‑render and repositions
+  // every card accordingly.
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleCardClick = (service: typeof services[0]) => {
-    setIsRotating(true);
-    setTimeout(() => {
-      setIsRotating(false);
-      setSelectedService(service);
-    }, 1000);
+  // Compute per‑card transforms and z‑index values. We calculate these
+  // properties in JS rather than CSS so we can assign z‑index based on the
+  // card’s rotational position. Cards on the front half of the carousel get
+  // higher z‑index values than those on the back half.
+  const cardStyles = useMemo(() => {
+    const quantity = services.length;
+    const angle = 360 / quantity;
+    const radius = 380; // distance from the centre; adjust to tweak layout
+    return services.map((_, idx) => {
+      // Determine how many steps this card is offset from the active index.
+      let offset = idx - currentIndex;
+      // Wrap negative offsets by adding the quantity; ensures values in [0, qty)
+      if (offset < 0) offset += quantity;
+      const rotation = offset * angle;
+      // Convert rotation to radians for z‑index calculation
+      const rad = ((rotation + 90) * Math.PI) / 180;
+      // zIndex oscillates between positive and negative; the front half (0‑180°)
+      // yields positive cos values which we translate to larger z‑index.
+      const zIndex = Math.round(Math.cos(rad) * 100);
+      return {
+        transform: `rotateY(${rotation}deg) translateZ(${radius}px)`,
+        zIndex,
+      };
+    });
+  }, [services.length, currentIndex]);
+
+  // Auto‑advance the carousel every 8 seconds. When a user clicks on a card
+  // the index updates immediately and the interval continues from the new
+  // position. You can adjust the delay by editing the timeout duration.
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % services.length);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [services.length]);
+
+  // Handle clicking on a card. We update the current index so that the
+  // clicked item becomes the new front card. This causes all cards to
+  // reposition around the carousel. You could also add smooth animation here
+  // using a state flag and CSS transitions.
+  const handleCardClick = (clickedIndex: number) => {
+    setCurrentIndex(clickedIndex);
   };
 
   return (
@@ -188,82 +145,42 @@ export const PaymentSlider = () => {
 
       <div className="banner-container">
         <div className="center-shield">
-          <img src={shieldLogo} alt="Merchant Haus Shield" />
+          {/* Replace with your own logo or shield image */}
+          <div className="shield-placeholder" />
         </div>
-        
-        {/* Slider B - Behind shield (z-index 3) */}
-        <div 
-          className={`slider-3d slider-back ${isRotating ? 'rotating' : ''}`} 
-          style={{ "--quantity": services.length } as React.CSSProperties}
+        <div
+          className="slider-3d"
+          style={{ ['--quantity' as any]: services.length } as any}
         >
-          {services.map((service) => (
-            <div
-              key={`back-${service.position}`}
-              className="slider-item"
-              style={{ 
-                "--position": service.position,
-              } as React.CSSProperties}
-              onClick={() => handleCardClick(service)}
-            >
-              <div className="service-card">
-                <div className="service-card-front">
-                  <div className="service-image">
-                    <div className="service-overlay">
-                      <div className="service-icon-wrap">
-                        <service.icon className="service-icon" />
+          {services.map((service, idx) => {
+            const { transform, zIndex } = cardStyles[idx];
+            return (
+              <div
+                key={service.name}
+                className="slider-item"
+                style={{ transform, zIndex }}
+                onClick={() => handleCardClick(idx)}
+              >
+                <div className="service-card">
+                  <div className="service-card-front">
+                    <div className="service-image">
+                      <div className="service-overlay">
+                        <div className="service-icon-wrap">
+                          <service.icon className="service-icon" />
+                        </div>
+                        <span className="service-name">{service.name}</span>
                       </div>
-                      <span className="service-name">{service.name}</span>
                     </div>
                   </div>
                 </div>
-                <div className="service-card-back">
-                  <img src={shieldLogo} alt="Merchant Haus" className="card-back-logo" />
-                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
-
-        {/* Slider A - In front of shield (z-index 7) */}
-        <div 
-          className={`slider-3d slider-front ${isRotating ? 'rotating' : ''}`} 
-          style={{ "--quantity": services.length } as React.CSSProperties}
-        >
-          {services.map((service) => (
-            <div
-              key={`front-${service.position}`}
-              className="slider-item"
-              style={{ 
-                "--position": service.position,
-              } as React.CSSProperties}
-              onClick={() => handleCardClick(service)}
-            >
-              <div className="service-card">
-                <div className="service-card-front">
-                  <div className="service-image">
-                    <div className="service-overlay">
-                      <div className="service-icon-wrap">
-                        <service.icon className="service-icon" />
-                      </div>
-                      <span className="service-name">{service.name}</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="service-card-back">
-                  <img src={shieldLogo} alt="Merchant Haus" className="card-back-logo" />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="model-shadow" aria-hidden="true" />
       </div>
 
-      <ServiceDetailModal 
-        service={selectedService}
-        onClose={() => setSelectedService(null)}
-      />
-
+      {/* Scoped styles for the slider. We reuse many of the values from the
+          original slider but drop duplicated layers and static hiding rules. */}
       <style>{`
         .banner-container {
           width: 100%;
@@ -285,11 +202,12 @@ export const PaymentSlider = () => {
           pointer-events: none;
         }
 
-        .center-shield img {
+        .shield-placeholder {
           width: 100%;
           height: 100%;
-          object-fit: contain;
-          filter: drop-shadow(0 10px 30px rgba(220, 20, 60, 0.4));
+          border-radius: 50%;
+          background: radial-gradient(circle at center, rgba(220, 20, 60, 0.8), rgba(0,0,0,0) 70%);
+          filter: blur(40px);
         }
 
         .slider-3d {
@@ -301,69 +219,11 @@ export const PaymentSlider = () => {
           transform-style: preserve-3d;
           transform: perspective(1500px) rotateX(-18deg);
         }
-        
-        /* Slider A - Front layer */
-        .slider-front {
-          z-index: 7;
-          animation: autoRun 40s linear infinite;
-        }
-        
-        /* Slider B - Back layer */
-        .slider-back {
-          z-index: 3;
-          animation: autoRun 40s linear infinite;
-        }
-
-        .banner-container:hover .slider-3d:not(.rotating) {
-          animation-play-state: paused;
-        }
-
-        .slider-3d.rotating {
-          animation: spinToFront 1s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
-        }
-
-        @keyframes autoRun {
-          from {
-            transform: perspective(1500px) rotateX(-18deg) rotateY(0deg);
-          }
-          to {
-            transform: perspective(1500px) rotateX(-18deg) rotateY(360deg);
-          }
-        }
-
-        @keyframes spinToFront {
-          from {
-            transform: perspective(1500px) rotateX(-18deg) rotateY(var(--current-rotation, 0deg));
-          }
-          to {
-            transform: perspective(1500px) rotateX(-18deg) rotateY(calc(var(--current-rotation, 0deg) + 360deg));
-          }
-        }
 
         .slider-item {
           position: absolute;
           inset: 0;
-          transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(380px);
-        }
-        
-        /* Hide cards on back slider when at top (positions 10, 1, 2) */
-        .slider-back .slider-item[style*="--position: 10"],
-        .slider-back .slider-item[style*="--position: 1"],
-        .slider-back .slider-item[style*="--position: 2"] {
-          visibility: hidden;
-          pointer-events: none;
-        }
-        
-        /* Hide cards on front slider when at bottom (positions 3-9) */
-        .slider-front .slider-item[style*="--position: 3"],
-        .slider-front .slider-item[style*="--position: 4"],
-        .slider-front .slider-item[style*="--position: 5"],
-        .slider-front .slider-item[style*="--position: 6"],
-        .slider-front .slider-item[style*="--position: 7"],
-        .slider-front .slider-item[style*="--position: 8"],
-        .slider-front .slider-item[style*="--position: 9"] {
-          visibility: hidden;
-          pointer-events: none;
+          transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.8s;
         }
 
         .service-card {
@@ -371,15 +231,10 @@ export const PaymentSlider = () => {
           height: 100%;
           position: relative;
           transform-style: preserve-3d;
-          cursor: grab;
+          cursor: pointer;
         }
 
-        .service-card:active {
-          cursor: grabbing;
-        }
-
-        .service-card-front,
-        .service-card-back {
+        .service-card-front {
           position: absolute;
           width: 100%;
           height: 100%;
@@ -390,46 +245,15 @@ export const PaymentSlider = () => {
           -webkit-backface-visibility: hidden;
         }
 
-        .service-card-front {
-          transform: rotateY(0deg);
-        }
-
-        .service-card-back {
-          transform: rotateY(180deg);
-          background: linear-gradient(135deg, 
-            hsl(0 0% 100% / 0.15) 0%, 
-            hsl(var(--secondary) / 0.6) 50%, 
-            hsl(174 72% 56% / 0.3) 100%
-          );
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .card-back-logo {
-          width: 60%;
-          height: 60%;
-          object-fit: contain;
-          opacity: 0.4;
-        }
-
-        .service-card:hover {
-          transform: translateY(-5px);
-        }
-
-        .service-card:hover .service-card-front {
-          box-shadow: 0 15px 40px -5px rgba(220, 20, 60, 0.4);
-        }
-
         .service-image {
           width: 100%;
           height: 100%;
           position: relative;
-          background: linear-gradient(135deg, 
+          background: linear-gradient(135deg,
             hsl(0 0% 100% / 0.2) 0%,
             hsl(174 72% 56% / 0.4) 25%,
-            hsl(var(--secondary) / 0.7) 50%,
-            hsl(var(--primary) / 0.5) 75%,
+            hsl(var(--secondary, 220 14% 45%) / 0.7) 50%,
+            hsl(var(--primary, 220 90% 55%) / 0.5) 75%,
             hsl(0 0% 100% / 0.15) 100%
           );
         }
@@ -472,15 +296,6 @@ export const PaymentSlider = () => {
           font-family: 'Inter', sans-serif;
         }
 
-        .model-shadow {
-          position: absolute;
-          inset: auto 0 0;
-          height: 100px;
-          background: radial-gradient(ellipse at center, rgba(220, 20, 60, 0.3) 0%, transparent 70%);
-          filter: blur(40px);
-          z-index: 1;
-        }
-
         @media (max-width: 1023px) {
           .center-shield {
             width: 440px;
@@ -490,9 +305,6 @@ export const PaymentSlider = () => {
             width: 140px;
             height: 180px;
             left: calc(50% - 70px);
-          }
-          .slider-item {
-            transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(300px);
           }
         }
 
@@ -509,22 +321,8 @@ export const PaymentSlider = () => {
             height: 150px;
             left: calc(50% - 55px);
           }
-          .slider-item {
-            transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(210px);
-          }
-          .service-icon-wrap {
-            width: 3rem;
-            height: 3rem;
-          }
-          .service-icon {
-            width: 1.5rem;
-            height: 1.5rem;
-          }
-          .service-name {
-            font-size: 0.85rem;
-          }
         }
       `}</style>
     </section>
   );
-};
+}
