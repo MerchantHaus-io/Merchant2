@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Smartphone,
   Shuffle,
@@ -11,270 +11,176 @@ import {
   ShieldAlert,
   Globe2,
 } from "lucide-react";
+import { ServiceDetailModal } from "./ServiceDetailModal";
 
-/**
- * ImprovedPaymentSlider
- *
- * This component implements a 3D carousel with a single set of cards that
- * rotate around a central axis. As cards move to the far side of the
- * carousel they automatically drop behind the central shield (lower z‑index)
- * and then return to the front when they come back around. The rotation
- * advances automatically on a timer and can also be controlled by clicking
- * any card. Cards animate smoothly when the active index changes. There is
- * no reliance on duplicated markup or brittle CSS selectors; z‑ordering is
- * computed dynamically in JavaScript based off of each card’s current
- * rotational position.
- */
 export default function ImprovedPaymentSlider() {
-  // Define the services to show in the carousel. Each entry contains an icon,
-  // title, description and some optional features/benefits. You can edit
-  // these values to customise the slider for your own use‑case.
   const services = useMemo(
     () => [
       {
         icon: Smartphone,
         name: "Mobile & Contactless",
         description: "Take payments anywhere, from any device.",
+        position: 0,
+        features: ["NFC payments", "Mobile wallet integration", "Tap to pay", "QR code payments"],
+        benefits: ["Faster checkout", "Improved customer experience", "Reduced contact", "Modern payment methods"]
       },
       {
         icon: Shuffle,
         name: "Omnichannel Payments",
-        description:
-          "Unified payment experiences across every channel.",
+        description: "Unified payment experiences across every channel.",
+        position: 1,
+        features: ["In-store, online, and mobile", "Single integration", "Consistent reporting", "Unified customer profiles"],
+        benefits: ["Seamless customer journey", "Simplified operations", "Better insights", "Increased loyalty"]
       },
       {
         icon: FileText,
         name: "Payment Flexibility",
         description: "Every way your customers want to pay.",
+        position: 2,
+        features: ["Credit & debit cards", "ACH transfers", "Digital wallets", "Buy now, pay later"],
+        benefits: ["Higher conversion rates", "Broader market reach", "Customer convenience", "Competitive advantage"]
       },
       {
         icon: Repeat,
         name: "Subscriptions & Recurring Billing",
         description: "Predictable revenue, simplified.",
+        position: 3,
+        features: ["Automated billing", "Flexible pricing models", "Dunning management", "Usage-based billing"],
+        benefits: ["Steady cash flow", "Reduced churn", "Lower admin costs", "Scalable growth"]
       },
       {
         icon: Lock,
         name: "Fraud & Security",
         description: "Advanced protection built into every transaction.",
+        position: 4,
+        features: ["Real-time fraud detection", "3D Secure authentication", "PCI compliance", "Tokenization"],
+        benefits: ["Reduced chargebacks", "Protected reputation", "Customer trust", "Regulatory compliance"]
       },
       {
         icon: BarChart2,
         name: "Reporting & Insights",
         description: "Clear data for smarter decisions.",
+        position: 5,
+        features: ["Real-time dashboards", "Custom reports", "Transaction analytics", "Revenue forecasting"],
+        benefits: ["Data-driven decisions", "Identify trends", "Optimize performance", "Better forecasting"]
       },
       {
         icon: Cpu,
         name: "Modern POS",
         description: "Smart terminals and software that adapt to your business.",
+        position: 6,
+        features: ["Cloud-based system", "Inventory management", "Staff management", "Offline mode"],
+        benefits: ["Flexible operations", "Real-time updates", "Reduced downtime", "Scalable infrastructure"]
       },
       {
         icon: Landmark,
         name: "Integrations",
         description: "Works with the tools you already trust.",
+        position: 7,
+        features: ["E-commerce platforms", "Accounting software", "CRM systems", "Custom API access"],
+        benefits: ["Streamlined workflows", "Reduced manual work", "Better data sync", "Faster implementation"]
       },
       {
         icon: ShieldAlert,
         name: "Developer Tools",
         description: "Build with confidence.",
+        position: 8,
+        features: ["RESTful APIs", "SDKs & libraries", "Sandbox environment", "Comprehensive documentation"],
+        benefits: ["Faster development", "Custom solutions", "Easy testing", "Ongoing support"]
       },
       {
         icon: Globe2,
         name: "Global Reach",
         description: "Scale confidently across borders.",
+        position: 9,
+        features: ["Multi-currency support", "Local payment methods", "Global compliance", "Currency conversion"],
+        benefits: ["Enter new markets", "Local customer experience", "Risk mitigation", "Simplified expansion"]
       },
     ],
     []
   );
 
-  // The current index of the item that is considered to be at the front of
-  // the carousel. Updating this value triggers a re‑render and repositions
-  // every card accordingly.
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedService, setSelectedService] = useState<typeof services[0] | null>(null);
 
-  // Compute per‑card transforms and z‑index values. We calculate these
-  // properties in JS rather than CSS so we can assign z‑index based on the
-  // card’s rotational position. Cards on the front half of the carousel get
-  // higher z‑index values than those on the back half.
-  const cardStyles = useMemo(() => {
-    const quantity = services.length;
-    const angle = 360 / quantity;
-    const radius = 380; // distance from the centre; adjust to tweak layout
-    return services.map((_, idx) => {
-      // Determine how many steps this card is offset from the active index.
-      let offset = idx - currentIndex;
-      // Wrap negative offsets by adding the quantity; ensures values in [0, qty)
-      if (offset < 0) offset += quantity;
-      const rotation = offset * angle;
-      // Convert rotation to radians for z‑index calculation
-      const rad = ((rotation + 90) * Math.PI) / 180;
-      // zIndex oscillates between positive and negative; the front half (0‑180°)
-      // yields positive cos values which we translate to larger z‑index.
-      const zIndex = Math.round(Math.cos(rad) * 100);
-      return {
-        transform: `rotateY(${rotation}deg) translateZ(${radius}px)`,
-        zIndex,
-      };
-    });
-  }, [services.length, currentIndex]);
-
-  // Auto‑advance the carousel every 8 seconds. When a user clicks on a card
-  // the index updates immediately and the interval continues from the new
-  // position. You can adjust the delay by editing the timeout duration.
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % services.length);
-    }, 8000);
-    return () => clearInterval(timer);
-  }, [services.length]);
-
-  // Handle clicking on a card. We update the current index so that the
-  // clicked item becomes the new front card. This causes all cards to
-  // reposition around the carousel. You could also add smooth animation here
-  // using a state flag and CSS transitions.
-  const handleCardClick = (clickedIndex: number) => {
-    setCurrentIndex(clickedIndex);
+  const handleCardClick = (service: typeof services[0]) => {
+    setSelectedService(service);
   };
 
   return (
     <section id="payments" className="py-20 relative overflow-hidden">
-      <div className="max-w-5xl mx-auto px-4 text-center mb-16">
+      <div className="max-w-7xl mx-auto px-4 text-center mb-12">
         <h2 className="text-4xl sm:text-5xl font-ubuntu font-bold mb-4">
           Services
         </h2>
       </div>
 
-      <div className="banner-container">
-        <div className="center-shield">
-          {/* Replace with your own logo or shield image */}
-          <div className="shield-placeholder" />
-        </div>
-        <div
-          className="slider-3d"
-          style={{ ['--quantity' as any]: services.length } as any}
-        >
-          {services.map((service, idx) => {
-            const { transform, zIndex } = cardStyles[idx];
-            return (
-              <div
-                key={service.name}
-                className="slider-item"
-                style={{ transform, zIndex }}
-                onClick={() => handleCardClick(idx)}
-              >
-                <div className="service-card">
-                  <div className="service-card-front">
-                    <div className="service-image">
-                      <div className="service-overlay">
-                        <div className="service-icon-wrap">
-                          <service.icon className="service-icon" />
-                        </div>
-                        <span className="service-name">{service.name}</span>
-                      </div>
-                    </div>
-                  </div>
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="grid grid-cols-5 gap-6 auto-rows-fr">
+          {services.map((service) => (
+            <div
+              key={service.name}
+              className="service-card"
+              onClick={() => handleCardClick(service)}
+            >
+              <div className="service-card-content">
+                <div className="service-icon-wrap">
+                  <service.icon className="service-icon" />
                 </div>
+                <span className="service-name">{service.name}</span>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Scoped styles for the slider. We reuse many of the values from the
-          original slider but drop duplicated layers and static hiding rules. */}
+      <ServiceDetailModal 
+        service={selectedService} 
+        onClose={() => setSelectedService(null)} 
+      />
+
       <style>{`
-        .banner-container {
-          width: 100%;
-          min-height: clamp(28rem, 70vh, 40rem);
-          text-align: center;
-          overflow: hidden;
-          position: relative;
-          perspective: 1500px;
-        }
-
-        .center-shield {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 600px;
-          height: 600px;
-          z-index: 5;
-          pointer-events: none;
-        }
-
-        .shield-placeholder {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-          background: radial-gradient(circle at center, rgba(220, 20, 60, 0.8), rgba(0,0,0,0) 70%);
-          filter: blur(40px);
-        }
-
-        .slider-3d {
-          position: absolute;
-          width: 160px;
-          height: 200px;
-          top: 10%;
-          left: calc(50% - 80px);
-          transform-style: preserve-3d;
-          transform: perspective(1500px) rotateX(-18deg);
-        }
-
-        .slider-item {
-          position: absolute;
-          inset: 0;
-          transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.8s;
-        }
-
         .service-card {
-          width: 100%;
-          height: 100%;
+          aspect-ratio: 4 / 5;
           position: relative;
-          transform-style: preserve-3d;
-          cursor: pointer;
-        }
-
-        .service-card-front {
-          position: absolute;
-          width: 100%;
-          height: 100%;
           border-radius: 1rem;
           overflow: hidden;
-          box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
+          cursor: pointer;
+          background: #ffffff;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
         }
 
-        .service-image {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  background: #ffffff; /* solid white background */
-}
+        .service-card:hover {
+          transform: scale(1.08) perspective(1000px) rotateX(2deg) rotateY(-2deg);
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
 
+        .service-card:hover .service-card-content {
+          background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
+        }
 
-        .service-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+        .service-card-content {
+          width: 100%;
+          height: 100%;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           gap: 1rem;
-          padding: 1rem;
+          padding: 1.5rem;
+          background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+          transition: background 0.3s ease;
         }
 
         .service-icon-wrap {
           width: 4rem;
           height: 4rem;
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(10px);
+          background: rgba(255, 255, 255, 0.2);
           border-radius: 1rem;
           display: flex;
           align-items: center;
           justify-content: center;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 2px solid rgba(255, 255, 255, 0.3);
         }
 
         .service-icon {
@@ -289,32 +195,40 @@ export default function ImprovedPaymentSlider() {
           font-weight: 600;
           text-align: center;
           font-family: 'Inter', sans-serif;
+          line-height: 1.3;
+        }
+
+        @media (max-width: 1279px) {
+          .service-card {
+            aspect-ratio: 3 / 4;
+          }
         }
 
         @media (max-width: 1023px) {
-          .center-shield {
-            width: 440px;
-            height: 440px;
-          }
-          .slider-3d {
-            width: 140px;
-            height: 180px;
-            left: calc(50% - 70px);
+          .grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
           }
         }
 
         @media (max-width: 767px) {
-          .banner-container {
-            min-height: 26rem;
+          .grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
           }
-          .center-shield {
-            width: 320px;
-            height: 320px;
+          .service-card {
+            aspect-ratio: 1;
           }
-          .slider-3d {
-            width: 110px;
-            height: 150px;
-            left: calc(50% - 55px);
+          .service-name {
+            font-size: 0.8rem;
+          }
+          .service-icon-wrap {
+            width: 3rem;
+            height: 3rem;
+          }
+          .service-icon {
+            width: 1.5rem;
+            height: 1.5rem;
           }
         }
       `}</style>
