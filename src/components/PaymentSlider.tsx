@@ -246,17 +246,12 @@ export default function ImprovedPaymentSlider() {
         }
 
         .service-image {
-          width: 100%;
-          height: 100%;
-          position: relative;
-          background: linear-gradient(135deg,
-            hsl(0 0% 100% / 0.2) 0%,
-            hsl(174 72% 56% / 0.4) 25%,
-            hsl(var(--secondary, 220 14% 45%) / 0.7) 50%,
-            hsl(var(--primary, 220 90% 55%) / 0.5) 75%,
-            hsl(0 0% 100% / 0.15) 100%
-          );
-        }
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #ffffff; /* solid white background */
+}
+
 
         .service-overlay {
           position: absolute;
