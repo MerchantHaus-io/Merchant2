@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 13%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 13%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 13%;
+
+    /* Crimson primary */
+    --primary: 348 83% 47%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Burgundy secondary */
+    --secondary: 345 63% 32%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 87%;
+    --muted-foreground: 0 0% 45%;
+
+    /* Teal accent */
+    --accent: 174 72% 56%;
+    --accent-foreground: 0 0% 13%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Dove grey borders */
+    --border: 0 0% 87%;
+    --input: 0 0% 87%;
+    --ring: 348 83% 47%;
+
+    --radius: 1rem;
+    
+    /* Obsidian black */
+    --obsidian: 0 0% 13%;
+    
+    /* Corporate gradient colors */
+    --gradient-crimson: 348 83% 47%;
+    --gradient-burgundy: 345 63% 32%;
+    --gradient-teal: 174 72% 56%;
+    
+    /* Complementary hero colors */
+    --hero-crimson: 348 83% 47%;
+    --hero-coral: 16 92% 66%;
+    --hero-gold: 45 93% 58%;
+    --hero-teal: 174 72% 56%;
+    --hero-cyan: 191 91% 55%;
+    --hero-purple: 271 76% 63%;
+    --hero-magenta: 330 81% 60%;
+    --hero-amber: 38 100% 62%;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Obsidian black background */
+    --background: 0 0% 13%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 18%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 13%;
+    --popover-foreground: 0 0% 100%;
+
+    /* Crimson primary */
+    --primary: 348 83% 47%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Burgundy secondary */
+    --secondary: 345 63% 32%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 22%;
+    --muted-foreground: 0 0% 70%;
+
+    /* Teal accent */
+    --accent: 174 72% 56%;
+    --accent-foreground: 0 0% 13%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Dove grey borders */
+    --border: 0 0% 26%;
+    --input: 0 0% 26%;
+    --ring: 348 83% 47%;
+    
+    /* Obsidian black */
+    --obsidian: 0 0% 13%;
+    
+    /* Corporate gradient colors */
+    --gradient-crimson: 348 83% 47%;
+    --gradient-burgundy: 345 63% 32%;
+    --gradient-teal: 174 72% 56%;
+    
+    /* Complementary hero colors */
+    --hero-crimson: 348 83% 47%;
+    --hero-coral: 16 92% 66%;
+    --hero-gold: 45 93% 58%;
+    --hero-teal: 174 72% 56%;
+    --hero-cyan: 191 91% 55%;
+    --hero-purple: 271 76% 63%;
+    --hero-magenta: 330 81% 60%;
+    --hero-amber: 38 100% 62%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Vollkorn', serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Ubuntu', sans-serif;
+  }
+}
