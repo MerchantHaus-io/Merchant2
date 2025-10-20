@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact Merchant2</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="page-header">
+      <div class="navbar">
+        <a href="/" class="brand">
+          <span class="brand-icon" aria-hidden="true"></span>
+          <span>Merchant2</span>
+        </a>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/pages/services.html">Services</a>
+          <a href="/pages/about.html">About</a>
+          <a href="/pages/contact.html">Contact</a>
+        </nav>
+        <a class="cta-button primary" href="/pages/apply.html">Apply Now</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero-section">
+        <h1>Talk with the Merchant2 team</h1>
+        <p>
+          Share a few details below and our team will coordinate a discovery call. We respond within one business day
+          to map the right solution for your organization.
+        </p>
+      </section>
+
+      <section class="content-card">
+        <h2>Contact form</h2>
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="contact" />
+          <p hidden>
+            <label>
+              Don’t fill this out if you’re human: <input name="bot-field" />
+            </label>
+          </p>
+          <label>
+            Name
+            <input type="text" name="name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" required />
+          </label>
+          <label>
+            Company
+            <input type="text" name="company" />
+          </label>
+          <label>
+            Phone
+            <input type="tel" name="phone" />
+          </label>
+          <label>
+            How can we help?
+            <textarea name="message" required></textarea>
+          </label>
+          <button type="submit" class="cta-button primary">Send message</button>
+        </form>
+        <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
+          <a class="cta-button secondary" href="tel:15056006042">Call 1-505-600-6042</a>
+          <a class="cta-button secondary" href="mailto:support@merchanthaus.io">Email support@merchanthaus.io</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>Prefer to start an application? <a style="color:#fff;font-weight:600" href="/pages/apply.html">Apply here</a>.</div>
+      <div style="margin-top:1.5rem">© <span id="year"></span> Merchant2</div>
+    </footer>
+    <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  </body>
+</html>

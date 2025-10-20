@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import PaymentSlider from "@/components/PaymentSlider";
+import ImprovedPaymentSlider from "@/components/ImprovedPaymentSlider";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -9,7 +9,7 @@ const Index = () => {
       <Header />
       <main>
         <Hero />
-        <PaymentSlider />
+        <ImprovedPaymentSlider />
       </main>
       <Footer />
     </div>

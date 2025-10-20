@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Apply to Merchant2</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="page-header">
+      <div class="navbar">
+        <a href="/" class="brand">
+          <span class="brand-icon" aria-hidden="true"></span>
+          <span>Merchant2</span>
+        </a>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/pages/services.html">Services</a>
+          <a href="/pages/about.html">About</a>
+          <a href="/pages/contact.html">Contact</a>
+        </nav>
+        <a class="cta-button primary" href="/pages/apply.html">Apply Now</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero-section">
+        <h1>Submit your Merchant2 application</h1>
+        <p>
+          Complete the secure form below to begin onboarding. A Merchant2 specialist will review your submission and
+          contact you with next steps and credential provisioning.
+        </p>
+      </section>
+
+      <section class="content-card">
+        <h2>Application form</h2>
+        <form name="apply" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="apply" />
+          <p hidden>
+            <label>
+              Don’t fill this out if you’re human: <input name="bot-field" />
+            </label>
+          </p>
+          <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+            <label>
+              Business name
+              <input type="text" name="business" required />
+            </label>
+            <label>
+              Doing business as
+              <input type="text" name="dba" />
+            </label>
+            <label>
+              Contact name
+              <input type="text" name="contact" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" required />
+            </label>
+            <label>
+              Phone
+              <input type="tel" name="phone" required />
+            </label>
+            <label>
+              Monthly processing volume
+              <select name="volume">
+                <option value="Under 25k">Under $25k</option>
+                <option value="25k-100k">$25k - $100k</option>
+                <option value="100k-500k">$100k - $500k</option>
+                <option value="500k+">$500k+</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            Tell us about your payment goals
+            <textarea name="goals" required></textarea>
+          </label>
+          <button type="submit" class="cta-button primary">Submit application</button>
+        </form>
+        <div style="margin-top:2rem">
+          <a class="cta-button secondary" href="/pages/contact.html">Have questions? Contact us instead</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© <span id="year"></span> Merchant2. We’ll be in touch within one business day.</div>
+    </footer>
+    <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  </body>
+</html>

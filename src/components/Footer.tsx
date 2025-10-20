@@ -1,183 +1,61 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { useToast } from "./ui/use-toast";
+import heroImage from "@/assets/hero-image.jpg";
 
 const Footer = () => {
-  const { toast } = useToast();
-  const [isContactOpen, setIsContactOpen] = useState(false);
-  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
-
-  const paymentServices = [
-    { label: "Payment Services Overview", target: "" },
-    { label: "Omnichannel Payments", target: "omnichannel" },
-    { label: "Mobile Commerce", target: "mobile" },
-    { label: "Modern POS", target: "pos" },
-    { label: "AI-Powered Fraud Detection", target: "fraud" },
-    { label: "Recurring Billing & Subscriptions", target: "recurring" },
-    { label: "Payments Analytics", target: "analytics" },
-    { label: "Developer Solutions", target: "developer" },
-  ];
-
-  const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData as any).toString(),
-    })
-      .then(() => {
-        toast({
-          title: "Message sent!",
-          description: "We'll get back to you shortly.",
-        });
-        form.reset();
-        setIsContactOpen(false);
-      })
-      .catch(() => {
-        toast({
-          title: "Error",
-          description: "Failed to send message. Please try again.",
-          variant: "destructive",
-        });
-      });
-  };
-
-  const handleQuoteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData as any).toString(),
-    })
-      .then(() => {
-        toast({
-          title: "Quote request sent!",
-          description: "Our team will contact you soon.",
-        });
-        form.reset();
-        setIsQuoteOpen(false);
-      })
-      .catch(() => {
-        toast({
-          title: "Error",
-          description: "Failed to send request. Please try again.",
-          variant: "destructive",
-        });
-      });
-  };
-
   return (
-    <footer className="bg-background border-t border-border">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 gap-8">
-          <div>
-            <h3 className="font-ubuntu font-bold text-foreground mb-4">PAYMENT SERVICES</h3>
-            <ul className="space-y-2">
-              {paymentServices.map(({ label, target }) => {
-                const to = target ? `/services#${target}` : "/services";
-                return (
-                  <li key={label}>
-                    <Link to={to} className="text-muted-foreground hover:text-foreground transition-colors">
-                      {label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
+    <footer className="relative overflow-hidden text-white">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#DC143C]/95 via-[#DC143C]/70 to-transparent" />
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-10"
+        style={{ backgroundImage: `url(${heroImage})` }}
+        aria-hidden="true"
+      />
+      <div className="relative z-10">
+        <div className="max-w-7xl mx-auto px-6 py-20 space-y-16">
+          <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr_1fr] items-start">
+            <div className="space-y-4">
+              <p className="text-sm uppercase tracking-[0.4em] text-white/70">Merchant2</p>
+              <h2 className="text-3xl sm:text-4xl font-ubuntu font-bold">Payments made effortless</h2>
+              <p className="text-white/80 max-w-xl">
+                Launch faster with omnichannel acceptance, automation, and risk controls that stay in sync as you scale.
+                Merchant2 unifies your hero onboarding, service discovery, and CTA flow in one cohesive experience.
+              </p>
+            </div>
 
-        {/* Contact Information */}
-        <div id="contact" className="mt-12 pt-8 border-t border-border space-y-2">
-          <div className="text-muted-foreground">
-            <span className="text-muted-foreground">Call:</span>{" "}
-            <a href="tel:1-505-600-6042" className="text-primary hover:underline">
-              1-505-600-6042
-            </a>
-          </div>
-          <div className="text-muted-foreground">
-            <span className="text-muted-foreground">Email:</span>{" "}
-            <a href="mailto:support@merchanthaus.io" className="text-primary hover:underline">
-              support@merchanthaus.io
-            </a>
-          </div>
-          <div className="text-muted-foreground">
-            <span className="text-muted-foreground">Address:</span> 1209 Mountain Road Pl NE Ste N, Albuquerque, NM 87110 US
-          </div>
-          <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-            <DialogTrigger asChild>
-              <Button variant="outline" className="mt-4 w-full sm:w-auto">
-                Contact Support
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Contact Support</DialogTitle>
-              </DialogHeader>
-              <form name="contact" method="POST" data-netlify="true" onSubmit={handleContactSubmit} className="space-y-4">
-                <input type="hidden" name="form-name" value="contact" />
-                <div>
-                  <Input name="name" placeholder="Your Name" required />
-                </div>
-                <div>
-                  <Input name="email" type="email" placeholder="Your Email" required />
-                </div>
-                <div>
-                  <Textarea name="message" placeholder="How can we help?" required rows={4} />
-                </div>
-                <Button type="submit" className="w-full">Send Message</Button>
-              </form>
-            </DialogContent>
-          </Dialog>
-        </div>
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Explore</h3>
+              <ul className="space-y-3 text-white/85">
+                <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
+                <li><a href="/pages/services.html" className="hover:text-white transition-colors">Services One-Pager</a></li>
+                <li><a href="/pages/about.html" className="hover:text-white transition-colors">About Merchant2</a></li>
+                <li><a href="/pages/contact.html" className="hover:text-white transition-colors">Contact</a></li>
+              </ul>
+            </div>
 
-        {/* CTA Buttons */}
-        <div id="quote" className="mt-8 flex flex-col sm:flex-row gap-4">
-          <Dialog open={isQuoteOpen} onOpenChange={setIsQuoteOpen}>
-            <DialogTrigger asChild>
-              <Button size="lg" className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">
-                Get a Quote
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Get a Quote</DialogTitle>
-              </DialogHeader>
-              <form name="quote" method="POST" data-netlify="true" onSubmit={handleQuoteSubmit} className="space-y-4">
-                <input type="hidden" name="form-name" value="quote" />
-                <div>
-                  <Input name="company" placeholder="Company Name" required />
-                </div>
-                <div>
-                  <Input name="name" placeholder="Your Name" required />
-                </div>
-                <div>
-                  <Input name="email" type="email" placeholder="Your Email" required />
-                </div>
-                <div>
-                  <Input name="phone" type="tel" placeholder="Phone Number" required />
-                </div>
-                <div>
-                  <Textarea name="details" placeholder="Tell us about your payment processing needs" required rows={4} />
-                </div>
-                <Button type="submit" className="w-full">Submit Request</Button>
-              </form>
-            </DialogContent>
-          </Dialog>
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Get in touch</h3>
+              <div className="space-y-2 text-white/80">
+                <p>
+                  Call <a href="tel:15056006042" className="font-semibold text-white hover:underline">1-505-600-6042</a>
+                </p>
+                <p>
+                  Email <a href="mailto:support@merchanthaus.io" className="font-semibold text-white hover:underline">support@merchanthaus.io</a>
+                </p>
+                <p>1209 Mountain Road Pl NE Ste N, Albuquerque, NM 87110 US</p>
+              </div>
+            </div>
+          </div>
 
-          <Button size="lg" variant="outline" asChild>
-            <a href="#hero">Get Started</a>
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
+            <Button size="lg" className="px-8 py-4 rounded-full bg-white text-[#DC143C] font-semibold shadow-md hover:bg-red-100 transition" asChild>
+              <a href="/pages/contact.html">Contact Merchant2</a>
+            </Button>
+            <Button size="lg" variant="outline" className="px-8 py-4 rounded-full border-white text-white hover:bg-white/20" asChild>
+              <a href="/pages/apply.html">Apply for an account</a>
+            </Button>
+          </div>
+
+          <p className="text-center text-sm text-white/70">© {new Date().getFullYear()} Merchant2. All rights reserved.</p>
         </div>
       </div>
     </footer>
