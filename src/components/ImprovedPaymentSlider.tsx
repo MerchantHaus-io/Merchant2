@@ -1,328 +1,223 @@
-import { useEffect, useMemo, useState } from "react";
-import {
-  Smartphone,
-  Shuffle,
-  FileText,
-  Repeat,
-  Lock,
-  BarChart2,
-  Cpu,
-  Landmark,
-  ShieldAlert,
-  Globe2,
-} from "lucide-react";
+import { CSSProperties, MouseEvent } from "react";
 
-/**
- * ImprovedPaymentSlider
- *
- * This component implements a 3D carousel with a single set of cards that
- * rotate around a central axis. As cards move to the far side of the
- * carousel they automatically drop behind the central shield (lower z‑index)
- * and then return to the front when they come back around. The rotation
- * advances automatically on a timer and can also be controlled by clicking
- * any card. Cards animate smoothly when the active index changes. There is
- * no reliance on duplicated markup or brittle CSS selectors; z‑ordering is
- * computed dynamically in JavaScript based off of each card’s current
- * rotational position.
- */
-export default function ImprovedPaymentSlider() {
-  // Define the services to show in the carousel. Each entry contains an icon,
-  // title, description and some optional features/benefits. You can edit
-  // these values to customise the slider for your own use‑case.
-  const services = useMemo(
-    () => [
-      {
-        icon: Smartphone,
-        name: "Mobile & Contactless",
-        description: "Take payments anywhere, from any device.",
-      },
-      {
-        icon: Shuffle,
-        name: "Omnichannel Payments",
-        description:
-          "Unified payment experiences across every channel.",
-      },
-      {
-        icon: FileText,
-        name: "Payment Flexibility",
-        description: "Every way your customers want to pay.",
-      },
-      {
-        icon: Repeat,
-        name: "Subscriptions & Recurring Billing",
-        description: "Predictable revenue, simplified.",
-      },
-      {
-        icon: Lock,
-        name: "Fraud & Security",
-        description: "Advanced protection built into every transaction.",
-      },
-      {
-        icon: BarChart2,
-        name: "Reporting & Insights",
-        description: "Clear data for smarter decisions.",
-      },
-      {
-        icon: Cpu,
-        name: "Modern POS",
-        description: "Smart terminals and software that adapt to your business.",
-      },
-      {
-        icon: Landmark,
-        name: "Integrations",
-        description: "Works with the tools you already trust.",
-      },
-      {
-        icon: ShieldAlert,
-        name: "Developer Tools",
-        description: "Build with confidence.",
-      },
-      {
-        icon: Globe2,
-        name: "Global Reach",
-        description: "Scale confidently across borders.",
-      },
-    ],
-    []
-  );
+const cardDetails = [
+  {
+    label: "Mobile Payments",
+    description: "Tap-to-pay kits and handheld terminals that travel with your team.",
+    accent: "var(--card-accent-1)",
+    column: "1 / span 4",
+    row: "1 / span 3",
+  },
+  {
+    label: "Smart Routing",
+    description: "Intelligently route every transaction for optimal approval rates.",
+    accent: "var(--card-accent-2)",
+    column: "5 / span 3",
+    row: "1 / span 2",
+  },
+  {
+    label: "Fraud Prevention",
+    description: "Machine-learning risk scoring with adaptive rulesets.",
+    accent: "var(--card-accent-3)",
+    column: "8 / span 5",
+    row: "1 / span 3",
+  },
+  {
+    label: "Automation",
+    description: "No-code workflows that reconcile, refund, and notify customers instantly.",
+    accent: "var(--card-accent-4)",
+    column: "1 / span 3",
+    row: "4 / span 2",
+  },
+  {
+    label: "Analytics",
+    description: "Real-time dashboards with cohort comparisons and drill-downs.",
+    accent: "var(--card-accent-5)",
+    column: "4 / span 4",
+    row: "3 / span 3",
+  },
+  {
+    label: "Recurring Billing",
+    description: "Subscription tools with dunning flows and automated reminders.",
+    accent: "var(--card-accent-6)",
+    column: "8 / span 3",
+    row: "4 / span 2",
+  },
+  {
+    label: "Chargeback Defense",
+    description: "Win disputes with pre-built evidence packages and network alerts.",
+    accent: "var(--card-accent-7)",
+    column: "11 / span 2",
+    row: "4 / span 3",
+  },
+  {
+    label: "Embedded Finance",
+    description: "Revenue-sharing programs and white-label portals for partners.",
+    accent: "var(--card-accent-8)",
+    column: "1 / span 5",
+    row: "6 / span 3",
+  },
+  {
+    label: "Unified Checkout",
+    description: "Hosted flows that blend in-person, online, and invoicing journeys.",
+    accent: "var(--card-accent-9)",
+    column: "6 / span 4",
+    row: "6 / span 2",
+  },
+  {
+    label: "Settlement Ops",
+    description: "Funding automation, fee management, and treasury controls.",
+    accent: "var(--card-accent-10)",
+    column: "10 / span 3",
+    row: "6 / span 3",
+  },
+];
 
-  // The current index of the item that is considered to be at the front of
-  // the carousel. Updating this value triggers a re‑render and repositions
-  // every card accordingly.
-  const [currentIndex, setCurrentIndex] = useState(0);
+const ImprovedPaymentSlider = () => {
+  const handlePointerMove = (event: MouseEvent<HTMLDivElement>) => {
+    const card = event.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const percentX = (x / rect.width) * 2 - 1;
+    const percentY = (y / rect.height) * 2 - 1;
 
-  // Compute per‑card transforms and z‑index values. We calculate these
-  // properties in JS rather than CSS so we can assign z‑index based on the
-  // card’s rotational position. Cards on the front half of the carousel get
-  // higher z‑index values than those on the back half.
-  const cardStyles = useMemo(() => {
-    const quantity = services.length;
-    const angle = 360 / quantity;
-    const radius = 380; // distance from the centre; adjust to tweak layout
-    return services.map((_, idx) => {
-      // Determine how many steps this card is offset from the active index.
-      let offset = idx - currentIndex;
-      // Wrap negative offsets by adding the quantity; ensures values in [0, qty)
-      if (offset < 0) offset += quantity;
-      const rotation = offset * angle;
-      // Convert rotation to radians for z‑index calculation
-      const rad = ((rotation + 90) * Math.PI) / 180;
-      // zIndex oscillates between positive and negative; the front half (0‑180°)
-      // yields positive cos values which we translate to larger z‑index.
-      const zIndex = Math.round(Math.cos(rad) * 100);
-      return {
-        transform: `rotateY(${rotation}deg) translateZ(${radius}px)`,
-        zIndex,
-      };
-    });
-  }, [services.length, currentIndex]);
+    const rotateX = (-percentY * 12).toFixed(2);
+    const rotateY = (percentX * 14).toFixed(2);
 
-  // Auto‑advance the carousel every 8 seconds. When a user clicks on a card
-  // the index updates immediately and the interval continues from the new
-  // position. You can adjust the delay by editing the timeout duration.
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % services.length);
-    }, 8000);
-    return () => clearInterval(timer);
-  }, [services.length]);
+    card.style.setProperty("--tilt-x", `${rotateX}deg`);
+    card.style.setProperty("--tilt-y", `${rotateY}deg`);
+  };
 
-  // Handle clicking on a card. We update the current index so that the
-  // clicked item becomes the new front card. This causes all cards to
-  // reposition around the carousel. You could also add smooth animation here
-  // using a state flag and CSS transitions.
-  const handleCardClick = (clickedIndex: number) => {
-    setCurrentIndex(clickedIndex);
+  const handlePointerLeave = (event: MouseEvent<HTMLDivElement>) => {
+    const card = event.currentTarget;
+    card.style.setProperty("--tilt-x", "0deg");
+    card.style.setProperty("--tilt-y", "0deg");
   };
 
   return (
-    <section id="payments" className="py-20 relative overflow-hidden">
-      <div className="max-w-5xl mx-auto px-4 text-center mb-16">
-        <h2 className="text-4xl sm:text-5xl font-ubuntu font-bold mb-4">
-          Services
+    <section id="services" className="relative min-h-[90vh] overflow-hidden py-24">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-black/10 to-black/30" />
+      <div className="max-w-5xl mx-auto text-center px-6 mb-16">
+        <p className="text-sm uppercase tracking-[0.4em] brand-mark">MerchantHaus.io Services</p>
+        <h2 className="text-4xl sm:text-5xl font-ubuntu font-bold text-white drop-shadow-lg">
+          Built for scale across every payment touchpoint
         </h2>
+        <p className="mt-6 text-base sm:text-lg text-white/80 max-w-2xl mx-auto">
+          Explore the capabilities that power MerchantHaus.io—from mobile checkout to risk automation. Tap any card to visit the full service catalog.
+        </p>
       </div>
 
-      <div className="banner-container">
-        <div className="center-shield">
-          {/* Replace with your own logo or shield image */}
-          <div className="shield-placeholder" />
-        </div>
-        <div
-          className="slider-3d"
-          style={{ ['--quantity' as any]: services.length } as any}
-        >
-          {services.map((service, idx) => {
-            const { transform, zIndex } = cardStyles[idx];
+      <div className="relative">
+        <div className="card-grid">
+          {cardDetails.map(detail => {
+            const style: CSSProperties = {
+              ['--card-accent' as any]: detail.accent,
+              ['--grid-column' as any]: detail.column,
+              ['--grid-row' as any]: detail.row,
+            };
+
             return (
-              <div
-                key={service.name}
-                className="slider-item"
-                style={{ transform, zIndex }}
-                onClick={() => handleCardClick(idx)}
-              >
-                <div className="service-card">
-                  <div className="service-card-front">
-                    <div className="service-image">
-                      <div className="service-overlay">
-                        <div className="service-icon-wrap">
-                          <service.icon className="service-icon" />
-                        </div>
-                        <span className="service-name">{service.name}</span>
-                      </div>
-                    </div>
+              <a key={detail.label} href="/pages/services.html" className="group block h-full">
+                <div
+                  className="card"
+                  style={style}
+                  onMouseMove={handlePointerMove}
+                  onMouseLeave={handlePointerLeave}
+                >
+                  <div className="card-sheen" aria-hidden="true" />
+                  <div className="space-y-3">
+                    <h3 className="text-xl font-semibold font-ubuntu">{detail.label}</h3>
+                    <p className="text-sm text-white/80 leading-relaxed">{detail.description}</p>
                   </div>
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>
       </div>
 
-      {/* Scoped styles for the slider. We reuse many of the values from the
-          original slider but drop duplicated layers and static hiding rules. */}
       <style>{`
-        .banner-container {
-          width: 100%;
-          min-height: clamp(28rem, 70vh, 40rem);
-          text-align: center;
-          overflow: hidden;
+        .card-grid {
           position: relative;
-          perspective: 1500px;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: clamp(1rem, 2vw, 1.5rem);
+          padding: 0 clamp(0rem, 4vw, 2rem);
         }
 
-        .center-shield {
+        .card {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+          padding: clamp(1.25rem, 2.5vw, 1.75rem);
+          border-radius: 1rem;
+          background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.02));
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          color: #ffffff;
+          box-shadow: 0 25px 50px -20px rgba(15, 23, 42, 0.6);
+          transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, background 0.3s ease;
+          transform-style: preserve-3d;
+          will-change: transform;
+          overflow: hidden;
+        }
+
+        .card::before {
+          content: "";
           position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 600px;
-          height: 600px;
-          z-index: 5;
+          inset: 0;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+          opacity: 0.8;
+          pointer-events: none;
+          transition: opacity 0.3s ease;
+        }
+
+        .card-sheen {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(120deg, rgba(255, 255, 255, 0.35), transparent 55%);
+          opacity: 0;
+          transform: translateX(-40%);
+          transition: transform 0.5s ease, opacity 0.3s ease;
           pointer-events: none;
         }
 
-        .shield-placeholder {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-          background: radial-gradient(circle at center, rgba(220, 20, 60, 0.8), rgba(0,0,0,0) 70%);
-          filter: blur(40px);
+        .card:hover {
+          background: linear-gradient(140deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02)), var(--card-accent);
+          transform: scale(1.1) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+          box-shadow: 0 32px 70px -30px rgba(0, 0, 0, 0.55);
         }
 
-        .slider-3d {
-          position: absolute;
-          width: 160px;
-          height: 200px;
-          top: 10%;
-          left: calc(50% - 80px);
-          transform-style: preserve-3d;
-          transform: perspective(1500px) rotateX(-18deg);
+        .card:hover::before {
+          opacity: 0.45;
         }
 
-        .slider-item {
-          position: absolute;
-          inset: 0;
-          transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.8s;
+        .card:hover .card-sheen {
+          opacity: 1;
+          transform: translateX(0);
         }
 
-        .service-card {
-          width: 100%;
-          height: 100%;
-          position: relative;
-          transform-style: preserve-3d;
-          cursor: pointer;
+        .group:focus-visible .card {
+          outline: 3px solid var(--card-accent);
+          outline-offset: 4px;
         }
 
-        .service-card-front {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          border-radius: 1rem;
-          overflow: hidden;
-          box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-        }
-
-        .service-image {
-          width: 100%;
-          height: 100%;
-          position: relative;
-          background: linear-gradient(135deg,
-            hsl(0 0% 100% / 0.2) 0%,
-            hsl(174 72% 56% / 0.4) 25%,
-            hsl(var(--secondary, 220 14% 45%) / 0.7) 50%,
-            hsl(var(--primary, 220 90% 55%) / 0.5) 75%,
-            hsl(0 0% 100% / 0.15) 100%
-          );
-        }
-
-        .service-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 1rem;
-          padding: 1rem;
-        }
-
-        .service-icon-wrap {
-          width: 4rem;
-          height: 4rem;
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(10px);
-          border-radius: 1rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .service-icon {
-          width: 2rem;
-          height: 2rem;
-          color: white;
-        }
-
-        .service-name {
-          color: white;
-          font-size: 0.95rem;
-          font-weight: 600;
-          text-align: center;
-          font-family: 'Inter', sans-serif;
-        }
-
-        @media (max-width: 1023px) {
-          .center-shield {
-            width: 440px;
-            height: 440px;
+        @media (min-width: 1024px) {
+          .card-grid {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            grid-auto-rows: minmax(110px, 1fr);
           }
-          .slider-3d {
-            width: 140px;
-            height: 180px;
-            left: calc(50% - 70px);
-          }
-        }
 
-        @media (max-width: 767px) {
-          .banner-container {
-            min-height: 26rem;
-          }
-          .center-shield {
-            width: 320px;
-            height: 320px;
-          }
-          .slider-3d {
-            width: 110px;
-            height: 150px;
-            left: calc(50% - 55px);
+          .card {
+            grid-column: var(--grid-column);
+            grid-row: var(--grid-row);
           }
         }
       `}</style>
     </section>
   );
-}
+};
+
+export default ImprovedPaymentSlider;
