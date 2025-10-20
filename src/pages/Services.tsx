@@ -1,7 +1,6 @@
 import { Header } from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 interface ServiceSection {
   id: string;
@@ -33,7 +32,7 @@ const sections: ServiceSection[] = [
     ],
     cta: {
       label: "Talk about omnichannel",
-      href: "/#quote",
+      href: "/pages/contact.html",
     },
   },
   {
@@ -52,7 +51,7 @@ const sections: ServiceSection[] = [
     ],
     cta: {
       label: "Plan a mobile rollout",
-      href: "/#quote",
+      href: "/pages/apply.html",
     },
   },
   {
@@ -71,7 +70,7 @@ const sections: ServiceSection[] = [
     ],
     cta: {
       label: "Upgrade point of sale",
-      href: "/#quote",
+      href: "/pages/apply.html",
     },
   },
   {
@@ -90,7 +89,7 @@ const sections: ServiceSection[] = [
     ],
     cta: {
       label: "Review fraud controls",
-      href: "/#contact",
+      href: "/pages/contact.html",
     },
   },
   {
@@ -109,7 +108,7 @@ const sections: ServiceSection[] = [
     ],
     cta: {
       label: "Optimize recurring billing",
-      href: "/#quote",
+      href: "/pages/apply.html",
     },
   },
   {
@@ -128,7 +127,7 @@ const sections: ServiceSection[] = [
     ],
     cta: {
       label: "Explore analytics options",
-      href: "/#quote",
+      href: "/pages/contact.html",
     },
   },
   {
@@ -147,7 +146,7 @@ const sections: ServiceSection[] = [
     ],
     cta: {
       label: "Access developer resources",
-      href: "/#contact",
+      href: "/pages/contact.html",
     },
   },
 ];
@@ -169,10 +168,10 @@ const Services = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="rounded-full px-8 py-6 text-base sm:text-lg" asChild>
-                <Link to="/#quote">Request a tailored plan</Link>
+                <a href="/pages/apply.html">Request a tailored plan</a>
               </Button>
               <Button size="lg" variant="outline" className="rounded-full px-8 py-6 text-base sm:text-lg" asChild>
-                <Link to="/#contact">Connect with sales</Link>
+                <a href="/pages/contact.html">Connect with sales</a>
               </Button>
             </div>
           </div>
@@ -214,7 +213,7 @@ const Services = () => {
                 )}
                 {section.cta && (
                   <Button size="lg" className="rounded-full" asChild>
-                    <Link to={section.cta.href}>{section.cta.label}</Link>
+                    <a href={section.cta.href}>{section.cta.label}</a>
                   </Button>
                 )}
               </div>
