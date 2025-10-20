@@ -6,154 +6,155 @@ import React from "react";
 
 const sections = [
   {
-    id: "omnichannel",
-    title: "Omnichannel Payments",
-    desc: "One gateway for every way they want to pay — online, in‑store, mobile, or unattended.",
-    img: "images/omni.webp.webp",
-    content: (
-      <>
-        <p>
-          Modern commerce happens everywhere. Accept cards, ACH, and contactless from a single platform.
-          Whether checkout happens on your site, at a countertop, or via a kiosk, everything lands in one
-          settlement and reporting engine.
-        </p>
-        <ul>
-          <li>Unified management across locations and IDs.</li>
-          <li>Consistent tokenization and customer profiles across channels.</li>
-          <li>White‑label ready experiences that match your brand.</li>
-        </ul>
-        <a href="onboarding.html" className="inline-block mt-6 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700">
-          Get Started
-        </a>
-      </>
-    ),
-  },
-  {
-    id: "mobile",
-    title: "Mobile Commerce",
-    desc: "Checkout that moves with your team — fast, secure and reliable.",
-    img: "images/mobile_commerce.png",
-    content: (
-      <>
-        <p>
-          Transform any smartphone or tablet into a certified terminal. Enable Tap‑to‑Pay, Apple Pay, Google Pay,
-          and contactless cards anywhere — perfect for pop‑ups, field service or curbside pickup.
-        </p>
-        <p>
-          SDKs for iOS and Android let you pair EMV readers and manage encryption automatically. Every
-          transaction syncs with your main ledger in real time.
-        </p>
-        <a href="support/index.html" className="inline-block mt-6 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow hover:bg-indigo-700">
-          Learn More
-        </a>
-      </>
-    ),
-  },
-  {
-    id: "pos",
-    title: "Modern POS",
-    desc: "Modular, powerful, and built for busy counters and unattended kiosks alike.",
+    id: "infrastructure",
+    title: "Built on Proven Infrastructure",
+    desc: "Enterprise-grade reliability without the enterprise-level complexity.",
     img: "images/modern_pos.png",
     content: (
       <>
         <p>
-          Power your countertop and self‑service experiences with the latest Ingenico and Verifone devices. Accept
-          chip, PIN, swipe, and contactless payments through a unified gateway — all managed remotely from the
-          Merchant Portal.
+          Behind every Merchant Haus transaction lies the stability of our partnership with <strong>NMI</strong>,
+          a global leader in payment enablement. You get resilient uptime, redundancy, and compliance baked into
+          every swipe, tap, and tokenized checkout.
         </p>
-        <p>
-          Extend to mobile or unattended scenarios with certified card readers and secure kiosk integrations. View
-          consolidated reporting and device health in one dashboard.
-        </p>
-        <a href="onboarding.html" className="inline-block mt-6 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700">
-          Upgrade Your POS
+        <ul>
+          <li>Processor-agnostic routing with intelligent failover.</li>
+          <li>Certified security frameworks that exceed PCI requirements.</li>
+          <li>Hands-on launch support to accelerate your go-live timeline.</li>
+        </ul>
+        <a
+          href="onboarding.html"
+          className="inline-block mt-6 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700"
+        >
+          Explore Infrastructure
         </a>
       </>
     ),
   },
   {
-    id: "fraud",
-    title: "AI‑Powered Fraud Detection",
-    desc: "Adaptive security that learns with every transaction — stop fraud without crushing conversions.",
+    id: "omnichannel",
+    title: "Unified Omnichannel Flow",
+    desc: "One dashboard for every in-store, online, and on-the-go transaction.",
+    img: "images/omni.webp.webp",
+    content: (
+      <>
+        <p>
+          Real-time updates across locations help you make smarter decisions and spot growth opportunities faster.
+          Whether customers pay in person, on the web, or through your mobile app, Merchant Haus brings every
+          settlement into a single, intuitive view.
+        </p>
+        <ul>
+          <li>Shared customer profiles and tokenized credentials across channels.</li>
+          <li>Location-level and enterprise-wide reporting in seconds.</li>
+          <li>Automated alerts for volume spikes, declines, and payout milestones.</li>
+        </ul>
+        <a
+          href="dashboard.html"
+          className="inline-block mt-6 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow hover:bg-indigo-700"
+        >
+          See the Dashboard
+        </a>
+      </>
+    ),
+  },
+  {
+    id: "security",
+    title: "Security That Builds Trust",
+    desc: "Advanced defenses that stay invisible to your checkout experience.",
     img: "images/fraud.webp",
     content: (
       <>
         <p>
-          Our platform combines <strong>iSpyFraud</strong> with <strong>Kount AI</strong> to assess each transaction in
-          milliseconds. Device fingerprints, IPs, and velocity patterns feed real‑time risk scores to protect your
-          business without blocking good customers.
+          Encryption, tokenization, and AI-driven fraud detection work together to protect your brand and your
+          customers. Customize thresholds, automate dispute responses, and keep friendly shoppers flowing through
+          frictionless approvals.
         </p>
         <ul>
-          <li>Customizable rules and regional velocity limits.</li>
-          <li>Whitelist / blacklist management and adaptive learning.</li>
-          <li>Chargeback defense with proactive alerts and evidence trails.</li>
+          <li>AI scoring powered by iSpyFraud and Kount for proactive risk insights.</li>
+          <li>Chargeback defense kits with automated evidence packaging.</li>
+          <li>Hardened token vault with rotating keys and regionalized storage.</li>
         </ul>
-        <a href="security.html" className="inline-block mt-6 px-6 py-3 bg-red-600 text-white font-semibold rounded-lg shadow hover:bg-red-700">
-          See Security Tools
+        <a
+          href="security.html"
+          className="inline-block mt-6 px-6 py-3 bg-red-600 text-white font-semibold rounded-lg shadow hover:bg-red-700"
+        >
+          Review Security Suite
         </a>
       </>
     ),
   },
   {
-    id: "recurring",
-    title: "Recurring Billing & Subscriptions",
-    desc: "Flexible plans, secure tokenization, and smart retries to maximize lifetime value.",
-    img: "images/recurring.webp",
+    id: "business-models",
+    title: "Built for Every Business Model",
+    desc: "Flexible settlement and pricing paths that scale as you grow.",
+    img: "images/mobile_commerce.png",
     content: (
       <>
         <p>
-          Support fixed, metered, or usage‑based pricing models with robust webhook events and analytics.
-          Automate retries, manage plan upgrades, and empower customers with self‑service portals.
+          From boutiques to franchises, field services to SaaS, Merchant Haus flexes to fit how you operate. Launch
+          with tailored rate plans, create split funding rules, and adapt to new channels without rebuilding your
+          payment stack.
         </p>
         <ul>
-          <li>Tokenized billing and smart dunning recovery.</li>
-          <li>Consolidated invoices and exportable revenue reports.</li>
-          <li>Reliable webhook delivery and dispute handling tools.</li>
+          <li>Support for card-present, card-not-present, ACH, and unattended flows.</li>
+          <li>Configurable fee profiles, surcharging, and cash discount options.</li>
+          <li>Automated settlements with transparent reconciliation reporting.</li>
         </ul>
-        <a href="pricing.html" className="inline-block mt-6 px-6 py-3 bg-yellow-600 text-white font-semibold rounded-lg shadow hover:bg-yellow-700">
-          View Plans
+        <a
+          href="pricing.html"
+          className="inline-block mt-6 px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow hover:bg-green-700"
+        >
+          Customize Your Plan
         </a>
       </>
     ),
   },
   {
-    id: "analytics",
-    title: "Payments Analytics",
-    desc: "From approvals to payouts, get the signal you need to grow revenue and reduce cost.",
+    id: "data",
+    title: "Data That Drives Action",
+    desc: "Actionable analytics that transform raw transactions into strategy.",
     img: "images/analytics.webp",
     content: (
       <>
         <p>
-          Real‑time dashboards show performance across web, POS, and mobile. Slice by region, product, or team.
-          Monitor authorization rates, retries, disputes, and fees from a single hub.
+          Visualize performance, monitor settlement timing, and track revenue trends with a clear lens into every
+          payment event. Build reports in seconds or push data into your BI stack using exports and APIs.
         </p>
         <ul>
-          <li>Live dashboards, cohort tracking, and payout transparency.</li>
-          <li>Retry intelligence and alerting for key performance drops.</li>
-          <li>CSV and API exports to your BI stack.</li>
+          <li>Real-time dashboards covering approvals, retries, disputes, and fees.</li>
+          <li>Custom cohort tracking for locations, teams, and product lines.</li>
+          <li>Automated alerts and digest emails to keep leadership in the loop.</li>
         </ul>
-        <a href="options.html" className="inline-block mt-6 px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow hover:bg-purple-700">
-          See Your Options
+        <a
+          href="analytics.html"
+          className="inline-block mt-6 px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow hover:bg-purple-700"
+        >
+          Dive Into Insights
         </a>
       </>
     ),
   },
   {
-    id: "developer",
-    title: "For Developers",
-    desc: "Embed payments faster with transparent APIs, secure webhooks, and powerful SDKs.",
+    id: "partner-growth",
+    title: "Partner-Powered Growth",
+    desc: "Technology from Merchant Haus and NMI to accelerate revenue everywhere.",
     img: "images/developer.png",
     content: (
       <>
         <p>
-          Build confidently using RESTful APIs with full JSON support. Webhooks notify you instantly of events
-          like payments, disputes, and renewals, all secured with HMAC‑SHA256 signatures.
+          Merchant Haus partners with <strong>NMI</strong> so you can accept payments anywhere, on any device, across every
+          channel. Simplify your payment stack while protecting transactions through one trusted connection.
         </p>
-        <p>
-          SDKs for web, iOS, and Android accelerate integration with Collect.js for seamless browser tokenization.
-        </p>
-        <a href="developers/index.html" className="inline-block mt-6 px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-black">
-          Visit Developer Docs
+        <ul>
+          <li>Tap to Pay and mobile wallets for modern checkout experiences.</li>
+          <li>ACH and card acceptance tuned to customer preference.</li>
+          <li>Recurring billing, subscription automation, and developer-ready APIs.</li>
+        </ul>
+        <a
+          href="developers/index.html"
+          className="inline-block mt-6 px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-black"
+        >
+          Build With Us
         </a>
       </>
     ),
@@ -180,21 +181,42 @@ export default function PaymentsOverview() {
   return (
     <main className="max-w-6xl mx-auto px-4">
       <header className="text-center py-16">
-        <h1 className="text-5xl font-extrabold mb-4">MerchantHaus Payment Solutions</h1>
+        <h1 className="text-5xl font-extrabold mb-4">The Merchant Haus Payments Experience</h1>
         <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-          Explore a unified suite of payment services — from omnichannel acceptance to developer tools — built
-          to scale with modern commerce.
+          At Merchant Haus, we’ve reimagined how businesses handle payments. Our platform brings together the best of
+          technology, design, and reliability, ensuring every transaction feels effortless—for both you and your
+          customers.
         </p>
-        <a href="onboarding.html" className="inline-block mt-8 px-8 py-4 bg-blue-700 text-white font-semibold rounded-lg shadow hover:bg-blue-800">
-          Start Now
+        <a
+          href="onboarding.html"
+          className="inline-block mt-8 px-8 py-4 bg-blue-700 text-white font-semibold rounded-lg shadow hover:bg-blue-800"
+        >
+          Start Your Journey
         </a>
       </header>
       {sections.map((section, i) => (
         <Section key={section.id} {...section} reverse={i % 2 !== 0} />
       ))}
+      <section className="py-16 text-center">
+        <h2 className="text-4xl font-bold mb-4">Merchant Haus: Where Payments Feel Effortless</h2>
+        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          We believe the future of payments isn’t just about processing—it’s about experience. With Merchant Haus, you
+          get a system that keeps up with your ambition. Fast. Flexible. Frictionless. From your first transaction to
+          your millionth, we’re here to make every payment feel simple, secure, and seamless.
+        </p>
+        <a
+          href="contact.html"
+          className="inline-block mt-8 px-8 py-4 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700"
+        >
+          Talk With Our Team
+        </a>
+      </section>
       <footer className="text-center py-12 border-t mt-16 text-gray-500">
         <p>© 2025 MerchantHaus.io — Modern Payments for Modern Merchants.</p>
-        <a href="contact.html" className="inline-block mt-4 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700">
+        <a
+          href="contact.html"
+          className="inline-block mt-4 px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700"
+        >
           Contact Us
         </a>
       </footer>
