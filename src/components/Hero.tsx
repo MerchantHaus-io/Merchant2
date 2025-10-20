@@ -2,7 +2,7 @@ import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Zap, Lock, BarChart3 } from "lucide-react";
-import { AnalyticsGraphic } from "./AnalyticsGraphic";
+import heroImage from "../assets/hero-image.jpg";
 
 const word1Options = [
   "Control", "Simplicity", "Advantage", "Empowerment", "Opportunity", 
@@ -80,33 +80,39 @@ export const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left side - Text content */}
           <div className="text-left space-y-6">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-ubuntu font-bold leading-tight text-foreground">
-              Payment{" "}
-              <span 
-                className="inline-block transition-all duration-500"
-                style={{ color: color1 }}
-              >
-                {word1}
+            <h1 className="font-ubuntu font-bold leading-[1.1] text-foreground" style={{ fontSize: 'clamp(2.5rem, 8vw, 5.5rem)' }}>
+              <span className="whitespace-nowrap">
+                Payment{" "}
+                <span 
+                  className="inline-block transition-all duration-500"
+                  style={{ color: color1 }}
+                >
+                  {word1}
+                </span>
               </span>
               <br />
-              That{" "}
-              <span 
-                className="inline-block transition-all duration-500"
-                style={{ color: color2 }}
-              >
-                {word2}
+              <span className="whitespace-nowrap">
+                That{" "}
+                <span 
+                  className="inline-block transition-all duration-500"
+                  style={{ color: color2 }}
+                >
+                  {word2}
+                </span>
               </span>
               <br />
-              Your{" "}
-              <span 
-                className="inline-block transition-all duration-500"
-                style={{ color: color3 }}
-              >
-                {word3}
+              <span className="whitespace-nowrap">
+                Your{" "}
+                <span 
+                  className="inline-block transition-all duration-500"
+                  style={{ color: color3 }}
+                >
+                  {word3}
+                </span>
               </span>
             </h1>
             
-            <div className="flex items-center gap-6 text-base sm:text-lg text-foreground">
+            <div className="flex items-center gap-6 text-foreground" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1.125rem)' }}>
               <div className="flex items-center gap-2">
                 <Zap className="w-5 h-5 text-primary" />
                 <span className="font-semibold">Speed.</span>
@@ -121,14 +127,15 @@ export const Hero = () => {
               </div>
             </div>
 
-            <p className="text-base sm:text-lg text-foreground max-w-xl leading-relaxed">
+            <p className="text-foreground max-w-xl leading-relaxed" style={{ fontSize: 'clamp(1rem, 1.75vw, 1.25rem)' }}>
               Create your business profile in minutes and start accepting cards, ACH, and secure pay links — online, in-store, or on the go. Reduce costs, onboard quickly, and safeguard every transaction with advanced fraud protection and chargeback defense.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Button
                 size="lg"
-                className="rounded-full px-8 py-6 text-lg font-semibold bg-gradient-to-r from-primary to-secondary hover:opacity-90 shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+                className="rounded-full font-semibold bg-gradient-to-r from-primary to-secondary hover:opacity-90 shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+                style={{ fontSize: 'clamp(1rem, 1.75vw, 1.25rem)', padding: 'clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 3vw, 2rem)' }}
                 asChild
               >
                 <Link to="/services">Explore payment services</Link>
@@ -136,9 +143,16 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Right side - Analytics graphic */}
-          <div className="hidden lg:block h-[500px]">
-            <AnalyticsGraphic />
+          {/* Right side - Hero image with gradient overlay */}
+          <div className="relative h-[400px] lg:h-[500px] overflow-hidden rounded-2xl">
+            <div className="hero-image-container">
+              <img 
+                src={heroImage} 
+                alt="Payment solutions" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
+            </div>
           </div>
         </div>
       </div>
@@ -151,6 +165,21 @@ export const Hero = () => {
           100% { 
             background-position: 50% -50%, -50% 50%; 
           }
+        }
+        
+        @keyframes slideInRight {
+          from {
+            transform: translateX(100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        
+        .hero-image-container {
+          animation: slideInRight 1.2s ease-out;
         }
       `}</style>
     </section>
