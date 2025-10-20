@@ -12,8 +12,8 @@ export const Header = () => {
             <div className="flex items-center gap-10">
               <Link to="/" className="flex items-center gap-3 group">
                 <img src={shieldLogo} alt="MerchantHaus Shield" className="h-8 w-8" />
-                <h1 className="text-2xl font-ubuntu font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  MerchantHaus
+                <h1 className="text-2xl font-ubuntu font-semibold brand-mark">
+                  MerchantHaus.io
                 </h1>
               </Link>
               <nav className="hidden lg:flex space-x-6 text-sm font-medium text-foreground/85">

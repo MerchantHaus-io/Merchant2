@@ -1,196 +1,218 @@
-import { useEffect, useRef } from "react";
+import { CSSProperties, MouseEvent } from "react";
 
-const services = [
-  { label: "Mobile Payments", background: "#7400B8", text: "#ffffff" },
-  { label: "Smart Routing", background: "#5390D9", text: "#ffffff" },
-  { label: "Fraud Prevention", background: "#80FFDB", text: "#1e293b" },
-  { label: "Automation", background: "#56CFE1", text: "#0f172a" },
-  { label: "Analytics", background: "#5E60CE", text: "#ffffff" },
+const cardDetails = [
+  {
+    label: "Mobile Payments",
+    description: "Tap-to-pay kits and handheld terminals that travel with your team.",
+    accent: "var(--card-accent-1)",
+    column: "1 / span 4",
+    row: "1 / span 3",
+  },
+  {
+    label: "Smart Routing",
+    description: "Intelligently route every transaction for optimal approval rates.",
+    accent: "var(--card-accent-2)",
+    column: "5 / span 3",
+    row: "1 / span 2",
+  },
+  {
+    label: "Fraud Prevention",
+    description: "Machine-learning risk scoring with adaptive rulesets.",
+    accent: "var(--card-accent-3)",
+    column: "8 / span 5",
+    row: "1 / span 3",
+  },
+  {
+    label: "Automation",
+    description: "No-code workflows that reconcile, refund, and notify customers instantly.",
+    accent: "var(--card-accent-4)",
+    column: "1 / span 3",
+    row: "4 / span 2",
+  },
+  {
+    label: "Analytics",
+    description: "Real-time dashboards with cohort comparisons and drill-downs.",
+    accent: "var(--card-accent-5)",
+    column: "4 / span 4",
+    row: "3 / span 3",
+  },
+  {
+    label: "Recurring Billing",
+    description: "Subscription tools with dunning flows and automated reminders.",
+    accent: "var(--card-accent-6)",
+    column: "8 / span 3",
+    row: "4 / span 2",
+  },
+  {
+    label: "Chargeback Defense",
+    description: "Win disputes with pre-built evidence packages and network alerts.",
+    accent: "var(--card-accent-7)",
+    column: "11 / span 2",
+    row: "4 / span 3",
+  },
+  {
+    label: "Embedded Finance",
+    description: "Revenue-sharing programs and white-label portals for partners.",
+    accent: "var(--card-accent-8)",
+    column: "1 / span 5",
+    row: "6 / span 3",
+  },
+  {
+    label: "Unified Checkout",
+    description: "Hosted flows that blend in-person, online, and invoicing journeys.",
+    accent: "var(--card-accent-9)",
+    column: "6 / span 4",
+    row: "6 / span 2",
+  },
+  {
+    label: "Settlement Ops",
+    description: "Funding automation, fee management, and treasury controls.",
+    accent: "var(--card-accent-10)",
+    column: "10 / span 3",
+    row: "6 / span 3",
+  },
 ];
 
-const CARD_COUNT = services.length;
-const ROTATION_STEP = 360 / CARD_COUNT;
-
 const ImprovedPaymentSlider = () => {
-  const sliderRef = useRef<HTMLDivElement | null>(null);
-  const rotationRef = useRef(0);
-  const draggingRef = useRef(false);
-  const autoRotateRef = useRef(true);
-  const lastXRef = useRef(0);
-  const frameRef = useRef<number>();
+  const handlePointerMove = (event: MouseEvent<HTMLDivElement>) => {
+    const card = event.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const percentX = (x / rect.width) * 2 - 1;
+    const percentY = (y / rect.height) * 2 - 1;
 
-  const rotate = (delta: number) => {
-    rotationRef.current += delta;
-    const slider = sliderRef.current;
-    if (!slider) return;
-    slider.style.transform = `perspective(1500px) rotateX(-18deg) rotateY(${rotationRef.current}deg)`;
+    const rotateX = (-percentY * 12).toFixed(2);
+    const rotateY = (percentX * 14).toFixed(2);
+
+    card.style.setProperty("--tilt-x", `${rotateX}deg`);
+    card.style.setProperty("--tilt-y", `${rotateY}deg`);
   };
 
-  useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-
-    const autoSpin = () => {
-      if (autoRotateRef.current && !draggingRef.current) {
-        rotate(-0.08);
-      }
-      frameRef.current = requestAnimationFrame(autoSpin);
-    };
-
-    frameRef.current = requestAnimationFrame(autoSpin);
-
-    const handlePointerDown = (event: PointerEvent) => {
-      draggingRef.current = true;
-      autoRotateRef.current = false;
-      lastXRef.current = event.clientX;
-      slider.classList.add("dragging");
-      slider.setPointerCapture(event.pointerId);
-    };
-
-    const handlePointerMove = (event: PointerEvent) => {
-      if (!draggingRef.current) return;
-      const delta = event.clientX - lastXRef.current;
-      rotate(delta * 0.5);
-      lastXRef.current = event.clientX;
-    };
-
-    const handlePointerUp = (event: PointerEvent) => {
-      draggingRef.current = false;
-      autoRotateRef.current = true;
-      slider.classList.remove("dragging");
-      slider.releasePointerCapture(event.pointerId);
-    };
-
-    slider.addEventListener("pointerdown", handlePointerDown);
-    slider.addEventListener("pointermove", handlePointerMove);
-    slider.addEventListener("pointerup", handlePointerUp);
-
-    return () => {
-      slider.removeEventListener("pointerdown", handlePointerDown);
-      slider.removeEventListener("pointermove", handlePointerMove);
-      slider.removeEventListener("pointerup", handlePointerUp);
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
-    };
-  }, []);
+  const handlePointerLeave = (event: MouseEvent<HTMLDivElement>) => {
+    const card = event.currentTarget;
+    card.style.setProperty("--tilt-x", "0deg");
+    card.style.setProperty("--tilt-y", "0deg");
+  };
 
   return (
     <section id="services" className="relative min-h-[90vh] overflow-hidden py-24">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-black/5 to-black/20" />
-      <div className="max-w-4xl mx-auto text-center px-6 mb-16">
-        <p className="text-sm uppercase tracking-[0.4em] text-white/70">Merchant2 Services</p>
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-black/10 to-black/30" />
+      <div className="max-w-5xl mx-auto text-center px-6 mb-16">
+        <p className="text-sm uppercase tracking-[0.4em] brand-mark">MerchantHaus.io Services</p>
         <h2 className="text-4xl sm:text-5xl font-ubuntu font-bold text-white drop-shadow-lg">
           Built for scale across every payment touchpoint
         </h2>
         <p className="mt-6 text-base sm:text-lg text-white/80 max-w-2xl mx-auto">
-          Explore the capabilities that power Merchant2—from mobile checkout to risk automation. Tap any card to visit the full service catalog.
+          Explore the capabilities that power MerchantHaus.io—from mobile checkout to risk automation. Tap any card to visit the full service catalog.
         </p>
       </div>
 
-      <div className="banner">
-        <div ref={sliderRef} className="slider" role="list">
-          {services.map((service, index) => (
-            <a
-              key={service.label}
-              href="/pages/services.html"
-              className="item"
-              role="listitem"
-              style={{ ['--position' as any]: index + 1 }}
-            >
-              <div
-                className="service-card"
-                style={{ backgroundColor: service.background, color: service.text }}
-              >
-                <span>{service.label}</span>
-              </div>
-            </a>
-          ))}
+      <div className="relative">
+        <div className="card-grid">
+          {cardDetails.map(detail => {
+            const style: CSSProperties = {
+              ['--card-accent' as any]: detail.accent,
+              ['--grid-column' as any]: detail.column,
+              ['--grid-row' as any]: detail.row,
+            };
+
+            return (
+              <a key={detail.label} href="/pages/services.html" className="group block h-full">
+                <div
+                  className="card"
+                  style={style}
+                  onMouseMove={handlePointerMove}
+                  onMouseLeave={handlePointerLeave}
+                >
+                  <div className="card-sheen" aria-hidden="true" />
+                  <div className="space-y-3">
+                    <h3 className="text-xl font-semibold font-ubuntu">{detail.label}</h3>
+                    <p className="text-sm text-white/80 leading-relaxed">{detail.description}</p>
+                  </div>
+                </div>
+              </a>
+            );
+          })}
         </div>
       </div>
 
       <style>{`
-        .banner {
-          perspective: 1500px;
+        .card-grid {
           position: relative;
-          height: clamp(26rem, 70vh, 36rem);
-          overflow: hidden;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: clamp(1rem, 2vw, 1.5rem);
+          padding: 0 clamp(0rem, 4vw, 2rem);
+        }
+
+        .card {
+          position: relative;
           display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .slider {
-          position: relative;
-          width: 160px;
-          height: 200px;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+          padding: clamp(1.25rem, 2.5vw, 1.75rem);
+          border-radius: 1rem;
+          background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.02));
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          color: #ffffff;
+          box-shadow: 0 25px 50px -20px rgba(15, 23, 42, 0.6);
+          transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, background 0.3s ease;
           transform-style: preserve-3d;
-          transform: perspective(1500px) rotateX(-18deg);
-          transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-          cursor: grab;
-          touch-action: none;
+          will-change: transform;
+          overflow: hidden;
         }
 
-        .slider.dragging {
-          transition: none;
-          cursor: grabbing;
-        }
-
-        .slider .item {
+        .card::before {
+          content: "";
           position: absolute;
           inset: 0;
-          display: block;
-          transform: rotateY(calc((var(--position) - 1) * ${ROTATION_STEP}deg)) translateZ(380px);
-          text-decoration: none;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+          opacity: 0.8;
+          pointer-events: none;
+          transition: opacity 0.3s ease;
         }
 
-        .service-card {
-          width: 160px;
-          height: 200px;
-          border-radius: 1.25rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 600;
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          text-align: center;
-          padding: 1rem;
+        .card-sheen {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(120deg, rgba(255, 255, 255, 0.35), transparent 55%);
+          opacity: 0;
+          transform: translateX(-40%);
+          transition: transform 0.5s ease, opacity 0.3s ease;
+          pointer-events: none;
         }
 
-        .service-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 18px 35px rgba(0, 0, 0, 0.45);
+        .card:hover {
+          background: linear-gradient(140deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.02)), var(--card-accent);
+          transform: scale(1.1) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+          box-shadow: 0 32px 70px -30px rgba(0, 0, 0, 0.55);
         }
 
-        @media (max-width: 1024px) {
-          .slider {
-            width: 140px;
-            height: 180px;
-          }
-
-          .service-card {
-            width: 140px;
-            height: 180px;
-          }
+        .card:hover::before {
+          opacity: 0.45;
         }
 
-        @media (max-width: 640px) {
-          .banner {
-            height: 24rem;
+        .card:hover .card-sheen {
+          opacity: 1;
+          transform: translateX(0);
+        }
+
+        .group:focus-visible .card {
+          outline: 3px solid var(--card-accent);
+          outline-offset: 4px;
+        }
+
+        @media (min-width: 1024px) {
+          .card-grid {
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            grid-auto-rows: minmax(110px, 1fr);
           }
 
-          .slider {
-            width: 110px;
-            height: 150px;
-          }
-
-          .slider .item {
-            transform: rotateY(calc((var(--position) - 1) * ${ROTATION_STEP}deg)) translateZ(300px);
-          }
-
-          .service-card {
-            width: 110px;
-            height: 150px;
-            font-size: 0.85rem;
+          .card {
+            grid-column: var(--grid-column);
+            grid-row: var(--grid-row);
           }
         }
       `}</style>

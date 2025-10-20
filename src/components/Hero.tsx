@@ -66,21 +66,19 @@ export const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative flex items-center overflow-hidden"
-      style={{ minHeight: "min(100vh, 820px)" }}
+      className="hero relative flex items-center overflow-hidden"
     >
       <div className="absolute inset-0 -z-20">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-90 animate-hero-image"
-          style={{
-            backgroundImage: `linear-gradient(90deg, rgba(12, 16, 24, 0.82) 0%, rgba(12, 16, 24, 0.72) 42%, rgba(12, 16, 24, 0.35) 60%, rgba(12, 16, 24, 0.1) 100%), url(${heroImage})`,
-          }}
+        <img
+          src={heroImage}
+          alt="Merchant payment devices with abstract lighting"
+          className="hero-bg-image"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1a0b11]/40 to-[#dc143c]/20" />
       </div>
 
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-y-0 left-0 right-[35%] bg-gradient-to-r from-background/90 via-background/75 to-transparent backdrop-blur-sm" />
+      <div className="absolute inset-0 -z-10 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0c1018]/88 via-[#0c1018]/32 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1a0b11]/40 to-[#dc143c]/24" />
       </div>
 
       <div className="relative z-10 w-full">
@@ -152,7 +150,7 @@ export const Hero = () => {
           <div className="relative h-[420px] lg:h-[560px] overflow-hidden rounded-[2.5rem] border border-white/10 shadow-2xl shadow-black/30">
             <div className="hero-image-frame">
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent" />
-              <div className="absolute inset-0 bg-cover bg-center animate-hero-image" style={{ backgroundImage: `url(${heroImage})` }} />
+              <img src={heroImage} alt="MerchantHaus.io platform dashboard" className="hero-showcase" />
               <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-background/20 to-transparent" />
             </div>
           </div>
@@ -160,19 +158,8 @@ export const Hero = () => {
       </div>
 
       <style>{`
-        @keyframes heroImageEnter {
-          from {
-            opacity: 0;
-            transform: translate3d(60px, 0, 0) scale(1.05);
-          }
-          to {
-            opacity: 1;
-            transform: translate3d(0, 0, 0) scale(1);
-          }
-        }
-
-        .animate-hero-image {
-          animation: heroImageEnter 1.5s ease-out forwards;
+        section.hero {
+          min-height: min(100vh, 820px);
         }
 
         .hero-image-frame {
@@ -181,6 +168,53 @@ export const Hero = () => {
           overflow: hidden;
           border-radius: 2.5rem;
           transform: translateZ(0);
+        }
+
+        .hero-showcase {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          filter: saturate(1.05) contrast(1.05);
+          animation: heroSlideFade 1.8s ease-out forwards;
+        }
+
+        .hero-bg-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transform: translateZ(0);
+          animation: heroSlideFade 1.8s ease-out forwards;
+        }
+
+        @keyframes heroSlideFade {
+          0% {
+            transform: translateX(-100%);
+            opacity: 0;
+          }
+          50% {
+            transform: translateX(-50%);
+            opacity: 0.5;
+          }
+          100% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+
+        section.hero::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0.6) 0%,
+            rgba(0, 0, 0, 0.0) 50%,
+            rgba(0, 0, 0, 0.2) 100%
+          );
+          pointer-events: none;
+          z-index: -5;
         }
       `}</style>
     </section>
