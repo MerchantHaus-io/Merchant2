@@ -1,5 +1,6 @@
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Zap, Lock, BarChart3 } from "lucide-react";
 import { AnalyticsGraphic } from "./AnalyticsGraphic";
 
@@ -125,11 +126,12 @@ export const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="rounded-full px-8 py-6 text-lg font-semibold bg-gradient-to-r from-primary to-secondary hover:opacity-90 shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
+                asChild
               >
-                Start accepting payments today
+                <Link to="/services">Explore payment services</Link>
               </Button>
             </div>
           </div>

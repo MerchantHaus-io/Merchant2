@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -9,6 +10,17 @@ const Footer = () => {
   const { toast } = useToast();
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+
+  const paymentServices = [
+    { label: "Payment Services Overview", target: "" },
+    { label: "Omnichannel Payments", target: "omnichannel" },
+    { label: "Mobile Commerce", target: "mobile" },
+    { label: "Modern POS", target: "pos" },
+    { label: "AI-Powered Fraud Detection", target: "fraud" },
+    { label: "Recurring Billing & Subscriptions", target: "recurring" },
+    { label: "Payments Analytics", target: "analytics" },
+    { label: "Developer Solutions", target: "developer" },
+  ];
 
   const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,86 +79,26 @@ const Footer = () => {
   return (
     <footer className="bg-background border-t border-border">
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Products Column */}
+        <div className="grid grid-cols-1 gap-8">
           <div>
-            <h3 className="font-ubuntu font-bold text-foreground mb-4">PRODUCTS</h3>
+            <h3 className="font-ubuntu font-bold text-foreground mb-4">PAYMENT SERVICES</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Omnichannel</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Fraud Detection</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Mobile Commerce</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Modern POS</a></li>
-            </ul>
-          </div>
-
-          {/* Resources Column */}
-          <div>
-            <h3 className="font-ubuntu font-bold text-foreground mb-4">RESOURCES</h3>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Developer Docs</a></li>
-              <li>
-                <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-                  <DialogTrigger asChild>
-                    <button className="text-muted-foreground hover:text-foreground transition-colors text-left">
-                      Support Center
-                    </button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Contact Support</DialogTitle>
-                    </DialogHeader>
-                    <form name="contact" method="POST" data-netlify="true" onSubmit={handleContactSubmit} className="space-y-4">
-                      <input type="hidden" name="form-name" value="contact" />
-                      <div>
-                        <Input name="name" placeholder="Your Name" required />
-                      </div>
-                      <div>
-                        <Input name="email" type="email" placeholder="Your Email" required />
-                      </div>
-                      <div>
-                        <Textarea name="message" placeholder="How can we help?" required rows={4} />
-                      </div>
-                      <Button type="submit" className="w-full">Send Message</Button>
-                    </form>
-                  </DialogContent>
-                </Dialog>
-              </li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Onboarding</a></li>
-            </ul>
-          </div>
-
-          {/* Company Column */}
-          <div>
-            <h3 className="font-ubuntu font-bold text-foreground mb-4">COMPANY</h3>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">About Us</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Security</a></li>
-              <li>
-                <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-                  <DialogTrigger asChild>
-                    <button className="text-muted-foreground hover:text-foreground transition-colors text-left">
-                      Contact
-                    </button>
-                  </DialogTrigger>
-                </Dialog>
-              </li>
-            </ul>
-          </div>
-
-          {/* Follow Us Column */}
-          <div>
-            <h3 className="font-ubuntu font-bold text-foreground mb-4">FOLLOW US</h3>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">LinkedIn</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Twitter</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Facebook</a></li>
+              {paymentServices.map(({ label, target }) => {
+                const to = target ? `/services#${target}` : "/services";
+                return (
+                  <li key={label}>
+                    <Link to={to} className="text-muted-foreground hover:text-foreground transition-colors">
+                      {label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
 
         {/* Contact Information */}
-        <div className="mt-12 pt-8 border-t border-border space-y-2">
+        <div id="contact" className="mt-12 pt-8 border-t border-border space-y-2">
           <div className="text-muted-foreground">
             <span className="text-muted-foreground">Call:</span>{" "}
             <a href="tel:1-505-600-6042" className="text-primary hover:underline">
@@ -162,10 +114,35 @@ const Footer = () => {
           <div className="text-muted-foreground">
             <span className="text-muted-foreground">Address:</span> 1209 Mountain Road Pl NE Ste N, Albuquerque, NM 87110 US
           </div>
+          <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="mt-4 w-full sm:w-auto">
+                Contact Support
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Contact Support</DialogTitle>
+              </DialogHeader>
+              <form name="contact" method="POST" data-netlify="true" onSubmit={handleContactSubmit} className="space-y-4">
+                <input type="hidden" name="form-name" value="contact" />
+                <div>
+                  <Input name="name" placeholder="Your Name" required />
+                </div>
+                <div>
+                  <Input name="email" type="email" placeholder="Your Email" required />
+                </div>
+                <div>
+                  <Textarea name="message" placeholder="How can we help?" required rows={4} />
+                </div>
+                <Button type="submit" className="w-full">Send Message</Button>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
 
         {/* CTA Buttons */}
-        <div className="mt-8 flex flex-col sm:flex-row gap-4">
+        <div id="quote" className="mt-8 flex flex-col sm:flex-row gap-4">
           <Dialog open={isQuoteOpen} onOpenChange={setIsQuoteOpen}>
             <DialogTrigger asChild>
               <Button size="lg" className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">
