@@ -1,15 +1,11 @@
-import { useMemo, useState } from "react";
+import { KeyboardEvent, MouseEvent as ReactMouseEvent, useEffect, useMemo, useState } from "react";
 import {
   Smartphone,
-  Shuffle,
-  FileText,
-  Repeat,
-  Lock,
-  BarChart2,
-  Cpu,
-  Landmark,
   ShieldAlert,
+  CreditCard,
   Globe2,
+  Lock,
+  ShoppingCart,
 } from "lucide-react";
 import { ServiceDetailModal } from "./ServiceDetailModal";
 
@@ -18,83 +14,81 @@ export default function ImprovedPaymentSlider() {
     () => [
       {
         icon: Smartphone,
-        name: "Mobile & Contactless",
-        description: "Take payments anywhere, from any device.",
-        position: 0,
-        features: ["NFC payments", "Mobile wallet integration", "Tap to pay", "QR code payments"],
-        benefits: ["Faster checkout", "Improved customer experience", "Reduced contact", "Modern payment methods"]
-      },
-      {
-        icon: Shuffle,
-        name: "Omnichannel Payments",
-        description: "Unified payment experiences across every channel.",
-        position: 1,
-        features: ["In-store, online, and mobile", "Single integration", "Consistent reporting", "Unified customer profiles"],
-        benefits: ["Seamless customer journey", "Simplified operations", "Better insights", "Increased loyalty"]
-      },
-      {
-        icon: FileText,
-        name: "Payment Flexibility",
-        description: "Every way your customers want to pay.",
-        position: 2,
-        features: ["Credit & debit cards", "ACH transfers", "Digital wallets", "Buy now, pay later"],
-        benefits: ["Higher conversion rates", "Broader market reach", "Customer convenience", "Competitive advantage"]
-      },
-      {
-        icon: Repeat,
-        name: "Subscriptions & Recurring Billing",
-        description: "Predictable revenue, simplified.",
-        position: 3,
-        features: ["Automated billing", "Flexible pricing models", "Dunning management", "Usage-based billing"],
-        benefits: ["Steady cash flow", "Reduced churn", "Lower admin costs", "Scalable growth"]
-      },
-      {
-        icon: Lock,
-        name: "Fraud & Security",
-        description: "Advanced protection built into every transaction.",
-        position: 4,
-        features: ["Real-time fraud detection", "3D Secure authentication", "PCI compliance", "Tokenization"],
-        benefits: ["Reduced chargebacks", "Protected reputation", "Customer trust", "Regulatory compliance"]
-      },
-      {
-        icon: BarChart2,
-        name: "Reporting & Insights",
-        description: "Clear data for smarter decisions.",
-        position: 5,
-        features: ["Real-time dashboards", "Custom reports", "Transaction analytics", "Revenue forecasting"],
-        benefits: ["Data-driven decisions", "Identify trends", "Optimize performance", "Better forecasting"]
-      },
-      {
-        icon: Cpu,
-        name: "Modern POS",
-        description: "Smart terminals and software that adapt to your business.",
-        position: 6,
-        features: ["Cloud-based system", "Inventory management", "Staff management", "Offline mode"],
-        benefits: ["Flexible operations", "Real-time updates", "Reduced downtime", "Scalable infrastructure"]
-      },
-      {
-        icon: Landmark,
-        name: "Integrations",
-        description: "Works with the tools you already trust.",
-        position: 7,
-        features: ["E-commerce platforms", "Accounting software", "CRM systems", "Custom API access"],
-        benefits: ["Streamlined workflows", "Reduced manual work", "Better data sync", "Faster implementation"]
+        name: "Mobile Payments",
+        description: "Empower your customers with seamless and secure payment experiences on any device.",
+        body: [
+          "Our mobile solutions support digital wallets, QR codes, and in-app purchases so your customers can pay the way they prefer without friction.",
+          "Certified hardware and SDKs keep data encrypted from tap to settlement while your teams manage devices and keys from one dashboard.",
+        ],
+        gradient: "from-[#DC143C] to-red-600",
+        shadow: "0 25px 50px -20px rgba(220, 20, 60, 0.55)",
+        features: ["Tap to Pay for Apple Pay and Google Pay", "Instant device provisioning", "Offline-ready transaction queueing"],
+        benefits: ["Accelerate checkout anywhere", "Reduce hardware rollout time", "Deliver consistent mobile experiences"],
       },
       {
         icon: ShieldAlert,
-        name: "Developer Tools",
-        description: "Build with confidence.",
-        position: 8,
-        features: ["RESTful APIs", "SDKs & libraries", "Sandbox environment", "Comprehensive documentation"],
-        benefits: ["Faster development", "Custom solutions", "Easy testing", "Ongoing support"]
+        name: "Advanced Fraud Detection",
+        description: "Protect revenue with adaptive, multi-layered fraud prevention driven by real-time intelligence.",
+        body: [
+          "Machine learning models and behavioral signals highlight risky activity instantly so you can take action before losses occur.",
+          "Collaborative review tools and network alerts streamline investigations without slowing genuine customers.",
+        ],
+        gradient: "from-green-600 to-emerald-700",
+        shadow: "0 25px 50px -20px rgba(16, 75, 50, 0.55)",
+        features: ["Adaptive risk scoring", "Card network and consortium data", "Chargeback defense workflows"],
+        benefits: ["Lower chargeback rates", "Block fraud in real time", "Maintain customer trust"],
+      },
+      {
+        icon: CreditCard,
+        name: "Modern POS Devices",
+        description: "Upgrade your in-person checkout with sleek, powerful hardware built for speed and reliability.",
+        body: [
+          "Accept contactless, EMV chip, and magstripe payments through certified terminals managed from a single control center.",
+          "Deploy kiosks, handhelds, and countertop devices with health monitoring, automatic updates, and remote support tools.",
+        ],
+        gradient: "from-[#A9A9A9] to-slate-700",
+        shadow: "0 25px 50px -20px rgba(40, 40, 40, 0.6)",
+        features: ["Centralized device management", "Omnichannel tokenization", "Remote diagnostics"],
+        benefits: ["Deliver consistent in-store journeys", "Minimize downtime", "Launch new formats quickly"],
       },
       {
         icon: Globe2,
-        name: "Global Reach",
-        description: "Scale confidently across borders.",
-        position: 9,
-        features: ["Multi-currency support", "Local payment methods", "Global compliance", "Currency conversion"],
-        benefits: ["Enter new markets", "Local customer experience", "Risk mitigation", "Simplified expansion"]
+        name: "Global Payments",
+        description: "Expand worldwide with cross-border acquiring, multi-currency settlement, and localized methods.",
+        body: [
+          "Accept cards, wallets, and alternative payments from any region with transparent currency conversion and local compliance.",
+          "Unified reporting provides visibility into fees, funding, and authorizations across every market you serve.",
+        ],
+        gradient: "from-[#00CEDB] to-emerald-600",
+        shadow: "0 25px 50px -20px rgba(0, 113, 139, 0.55)",
+        features: ["Multi-currency presentation", "Localized payment options", "Global compliance guidance"],
+        benefits: ["Reach new customers", "Maximize acceptance globally", "Simplify international operations"],
+      },
+      {
+        icon: Lock,
+        name: "Network Tokenization",
+        description: "Enhance security and approvals by replacing sensitive card data with lifecycle-managed tokens.",
+        body: [
+          "Automatically provision network tokens that stay current through expirations and reissues to keep recurring revenue flowing.",
+          "Reduce storage risk and simplify compliance with tokenized vaulting across channels and customer touchpoints.",
+        ],
+        gradient: "from-[#00CEDB] to-indigo-600",
+        shadow: "0 25px 50px -20px rgba(20, 64, 139, 0.55)",
+        features: ["Automatic card lifecycle management", "Vaultless recurring payments", "Token-level analytics"],
+        benefits: ["Boost authorization rates", "Lower PCI scope", "Protect stored credentials"],
+      },
+      {
+        icon: ShoppingCart,
+        name: "Ecommerce Solutions",
+        description: "Launch and grow online with flexible checkout, secure gateways, and frictionless shopping.",
+        body: [
+          "Customize hosted or embedded checkout flows that mirror your brand while keeping card data secured.",
+          "Integrate with leading commerce platforms and manage subscriptions, invoices, and digital goods in one place.",
+        ],
+        gradient: "from-[#DC143C] to-purple-800",
+        shadow: "0 25px 50px -20px rgba(112, 22, 120, 0.55)",
+        features: ["Optimized checkout templates", "Headless commerce APIs", "Subscription and invoicing toolkit"],
+        benefits: ["Increase conversion", "Ship faster with integrations", "Support every digital revenue stream"],
       },
     ],
     []
@@ -106,130 +100,160 @@ export default function ImprovedPaymentSlider() {
     setSelectedService(service);
   };
 
-  return (
-    <section id="payments" className="py-20 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 text-center mb-12">
-        <h2 className="text-4xl sm:text-5xl font-ubuntu font-bold mb-4">
-          Services
-        </h2>
-      </div>
+  useEffect(() => {
+    const animatedElements = document.querySelectorAll<HTMLElement>(".mh-animate-on-scroll");
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-5 gap-6 auto-rows-fr">
-          {services.map((service) => (
-            <div
-              key={service.name}
-              className="service-card"
-              onClick={() => handleCardClick(service)}
-            >
-              <div className="service-card-content">
-                <div className="service-icon-wrap">
-                  <service.icon className="service-icon" />
+    animatedElements.forEach(element => observer.observe(element));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  const handleTiltMove = (event: ReactMouseEvent<HTMLDivElement>) => {
+    const card = event.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const deltaX = x - centerX;
+    const deltaY = y - centerY;
+    const tiltIntensity = 15;
+
+    const rotateY = (deltaX / centerX) * tiltIntensity;
+    const rotateX = -(deltaY / centerY) * tiltIntensity;
+
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+
+    const icon = card.querySelector<HTMLElement>(".mh-icon-shadow");
+    if (icon) {
+      const shadowOffsetMultiplier = 1;
+      const shadowOffsetX = -rotateY * shadowOffsetMultiplier;
+      const shadowOffsetY = rotateX * shadowOffsetMultiplier;
+      const shadowBlurLarge = 8 + (Math.abs(shadowOffsetX) + Math.abs(shadowOffsetY)) * 0.5;
+      const shadowBlurSmall = 4 + (Math.abs(shadowOffsetX) + Math.abs(shadowOffsetY)) * 0.2;
+
+      icon.style.transition = "transform 0.2s ease-out";
+      icon.style.transform = "translateZ(40px) scale(1.25)";
+      icon.style.filter = `drop-shadow(${shadowOffsetX}px ${shadowOffsetY}px ${shadowBlurLarge}px rgb(0 0 0 / 0.55)) drop-shadow(${shadowOffsetX * 0.5}px ${shadowOffsetY * 0.5}px ${shadowBlurSmall}px rgb(0 0 0 / 0.65))`;
+    }
+  };
+
+  const handleTiltLeave = (event: ReactMouseEvent<HTMLDivElement>) => {
+    const card = event.currentTarget;
+    card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)";
+
+    const icon = card.querySelector<HTMLElement>(".mh-icon-shadow");
+    if (icon) {
+      icon.style.transition = "transform 0.3s ease-out, filter 0.3s ease-out";
+      icon.style.transform = "translateZ(40px) scale(1)";
+      icon.style.filter = "";
+    }
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>, service: typeof services[0]) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      handleCardClick(service);
+    }
+  };
+
+  return (
+    <section id="payments" className="py-20 relative overflow-hidden bg-[#111111] text-white">
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="text-center mb-16 md:mb-24 mh-animate-on-scroll">
+          <h2 className="text-4xl md:text-5xl font-ubuntu font-bold tracking-tight">
+            MerchantHaus Core Services
+          </h2>
+          <p className="mt-4 text-lg text-white/70 max-w-2xl mx-auto">
+            Innovative solutions designed to power modern commerce safely and efficiently across the globe.
+          </p>
+        </div>
+
+        <div className="space-y-20 md:space-y-24">
+          {services.map((service, index) => {
+            const orientation = index % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row";
+            return (
+              <div
+                key={service.name}
+                className={`mh-animate-on-scroll flex flex-col ${orientation} items-center justify-center gap-12 md:gap-16 cursor-pointer focus:outline-none`}
+                role="button"
+                tabIndex={0}
+                onClick={() => handleCardClick(service)}
+                onKeyDown={event => handleKeyDown(event, service)}
+              >
+                <div
+                  className={`mh-tilt-card flex-shrink-0 w-64 h-80 rounded-2xl bg-gradient-to-br ${service.gradient} p-8 flex items-center justify-center`}
+                  style={{ boxShadow: service.shadow }}
+                  onMouseMove={handleTiltMove}
+                  onMouseLeave={handleTiltLeave}
+                >
+                  <service.icon className="w-20 h-20 text-white mh-icon-shadow" />
                 </div>
-                <span className="service-name">{service.name}</span>
+                <div className="max-w-xl text-center md:text-left space-y-5">
+                  <p className="text-sm uppercase tracking-[0.3em] text-white/60">{service.name}</p>
+                  <h3 className="text-2xl md:text-3xl font-ubuntu font-semibold">{service.description}</h3>
+                  <div className="space-y-4 text-base text-white/75 leading-relaxed">
+                    {service.body.map(paragraph => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
+        </div>
+
+        <div className="mt-24 md:mt-32 mh-animate-on-scroll">
+          <div className="max-w-4xl mx-auto bg-[#DC143C] text-white text-center py-12 px-6 rounded-2xl shadow-[0_35px_60px_-20px_rgba(220,20,60,0.6)]">
+            <h3 className="text-3xl md:text-4xl font-bold font-ubuntu">Ready to Elevate Your Payments?</h3>
+            <p className="mt-4 text-lg max-w-2xl mx-auto text-white/90">
+              Join the top merchants who trust MerchantHaus to deliver secure, reliable, and innovative payment solutions. Let&apos;s build the future of commerce together.
+            </p>
+            <button
+              type="button"
+              className="mt-8 inline-flex items-center justify-center bg-white text-[#DC143C] font-bold py-3 px-8 rounded-lg text-lg transition-transform duration-300 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              onClick={() => handleCardClick(services[0])}
+            >
+              Contact Sales
+            </button>
+          </div>
         </div>
       </div>
 
-      <ServiceDetailModal 
-        service={selectedService} 
-        onClose={() => setSelectedService(null)} 
-      />
+      <ServiceDetailModal service={selectedService} onClose={() => setSelectedService(null)} />
 
       <style>{`
-        .service-card {
-          aspect-ratio: 4 / 5;
-          position: relative;
-          border-radius: 1rem;
-          overflow: hidden;
-          cursor: pointer;
-          background: #ffffff;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+        .mh-tilt-card {
+          transform-style: preserve-3d;
+          transition: transform 0.2s ease-out;
         }
 
-        .service-card:hover {
-          transform: scale(1.08) perspective(1000px) rotateX(2deg) rotateY(-2deg);
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        .mh-icon-shadow {
+          filter: drop-shadow(0 8px 6px rgb(0 0 0 / 0.55)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.65));
         }
 
-        .service-card:hover .service-card-content {
-          background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
+        .mh-animate-on-scroll {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
 
-        .service-card-content {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 1rem;
-          padding: 1.5rem;
-          background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-          transition: background 0.3s ease;
-        }
-
-        .service-icon-wrap {
-          width: 4rem;
-          height: 4rem;
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 1rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .service-icon {
-          width: 2rem;
-          height: 2rem;
-          color: white;
-        }
-
-        .service-name {
-          color: white;
-          font-size: 0.95rem;
-          font-weight: 600;
-          text-align: center;
-          font-family: 'Inter', sans-serif;
-          line-height: 1.3;
-        }
-
-        @media (max-width: 1279px) {
-          .service-card {
-            aspect-ratio: 3 / 4;
-          }
-        }
-
-        @media (max-width: 1023px) {
-          .grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-          }
-        }
-
-        @media (max-width: 767px) {
-          .grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-          }
-          .service-card {
-            aspect-ratio: 1;
-          }
-          .service-name {
-            font-size: 0.8rem;
-          }
-          .service-icon-wrap {
-            width: 3rem;
-            height: 3rem;
-          }
-          .service-icon {
-            width: 1.5rem;
-            height: 1.5rem;
-          }
+        .mh-animate-on-scroll.is-visible {
+          opacity: 1;
+          transform: translateY(0);
         }
       `}</style>
     </section>
