@@ -188,3 +188,60 @@ All colors MUST be HSL.
     -webkit-text-fill-color: transparent;
   }
 }
+
+@layer components {
+  .marquee-wrapper {
+    @apply relative w-full overflow-hidden; 
+  }
+
+  .marquee-wrapper::before,
+  .marquee-wrapper::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    height: 100%;
+    width: 6rem;
+    pointer-events: none;
+  }
+
+  .marquee-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, hsl(var(--background)) 0%, hsl(var(--background) / 0%) 100%);
+  }
+
+  .marquee-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, hsl(var(--background)) 0%, hsl(var(--background) / 0%) 100%);
+  }
+
+  .marquee-track {
+    @apply flex items-center gap-16; 
+    animation: marquee-scroll 30s linear infinite;
+  }
+
+  .marquee-wrapper:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  .marquee-item {
+    @apply flex shrink-0 items-center justify-center px-4;
+  }
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    transform: translateX(0);
+  }
+}
