@@ -1,6 +1,6 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";import IntegrationsMarquee from "@/components/logo-banner";
-import ImprovedPaymentSlider from "@/components/ServicesShowcase.tsx";
+import ImprovedPaymentSlider from "@/components/PaymentSlider.tsx";
 import PaymentsliderCarousel from "@/components/PaymentSliderCarousel";
 
 import Footer from "@/components/Footer";
