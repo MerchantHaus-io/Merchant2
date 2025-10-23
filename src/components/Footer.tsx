@@ -1,73 +1,219 @@
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
-import heroImage from "@/assets/hero-image.jpg";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { useToast } from "./ui/use-toast";
 
 const Footer = () => {
+  const { toast } = useToast();
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [isQuoteOpen, setIsQuoteOpen] = useState(false);
+
+  const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData as any).toString(),
+    })
+      .then(() => {
+        toast({
+          title: "Message sent!",
+          description: "We'll get back to you shortly.",
+        });
+        form.reset();
+        setIsContactOpen(false);
+      })
+      .catch(() => {
+        toast({
+          title: "Error",
+          description: "Failed to send message. Please try again.",
+          variant: "destructive",
+        });
+      });
+  };
+
+  const handleQuoteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData as any).toString(),
+    })
+      .then(() => {
+        toast({
+          title: "Quote request sent!",
+          description: "Our team will contact you soon.",
+        });
+        form.reset();
+        setIsQuoteOpen(false);
+      })
+      .catch(() => {
+        toast({
+          title: "Error",
+          description: "Failed to send request. Please try again.",
+          variant: "destructive",
+        });
+      });
+  };
+
   return (
-    <footer className="footer-gradient relative overflow-hidden text-white">
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent" />
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-10"
-        style={{ backgroundImage: `url(${heroImage})` }}
-        aria-hidden="true"
-      />
-      <div className="relative z-10">
-        <div className="max-w-7xl mx-auto px-6 py-20 space-y-16">
-          <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr_1fr] items-start">
-            <div className="space-y-4">
-              <p className="text-sm uppercase tracking-[0.4em] brand-mark">MerchantHaus.io</p>
-              <h2 className="text-3xl sm:text-4xl font-ubuntu font-bold">Payments made effortless</h2>
-              <p className="text-white/80 max-w-xl">
-                Launch faster with omnichannel acceptance, automation, and risk controls that stay in sync as you scale.
-                MerchantHaus.io unifies your hero onboarding, service discovery, and CTA flow in one cohesive experience.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Explore</h3>
-              <ul className="space-y-3 text-white/85">
-                <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
-                <li><a href="/pages/services.html" className="hover:text-white transition-colors">Services One-Pager</a></li>
-                <li><a href="/pages/about.html" className="hover:text-white transition-colors">About MerchantHaus.io</a></li>
-                <li><a href="/pages/contact.html" className="hover:text-white transition-colors">Contact</a></li>
-              </ul>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Get in touch</h3>
-              <div className="space-y-2 text-white/80">
-                <p>
-                  Call <a href="tel:15056006042" className="font-semibold text-white hover:underline">1-505-600-6042</a>
-                </p>
-                <p>
-                  Email <a href="mailto:support@merchanthaus.io" className="font-semibold text-white hover:underline">support@merchanthaus.io</a>
-                </p>
-                <p>1209 Mountain Road Pl NE Ste N, Albuquerque, NM 87110 US</p>
-              </div>
-            </div>
+    <footer className="bg-background border-t border-border">
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Products Column */}
+          <div>
+            <h3 className="font-ubuntu font-bold text-foreground mb-4">PRODUCTS</h3>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Omnichannel</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Gateway Services</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Fraud Detection</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Mobile Commerce</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Modern POS</a></li>
+            </ul>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-            <Button
-              size="lg"
-              className="px-8 py-4 rounded-full font-semibold text-white shadow-lg hover:opacity-90 transition bg-[length:200%_200%] bg-gradient-to-r from-[#DC143C] via-[#f85f8f] to-[#56CFE1] hover:bg-[length:220%_220%]"
-              asChild
-            >
-              <a href="/pages/apply.html">Create Your Account</a>
-            </Button>
-            <Button size="lg" variant="outline" className="px-8 py-4 rounded-full border-white text-white hover:bg-white/20" asChild>
-              <a href="/pages/contact.html">Contact MerchantHaus.io</a>
-            </Button>
+          {/* Resources Column */}
+          <div>
+            <h3 className="font-ubuntu font-bold text-foreground mb-4">RESOURCES</h3>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Developer Docs</a></li>
+              <li>
+                <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
+                  <DialogTrigger asChild>
+                    <button className="text-muted-foreground hover:text-foreground transition-colors text-left">
+                      Support Center
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Contact Support</DialogTitle>
+                    </DialogHeader>
+                    <form name="contact" method="POST" data-netlify="true" onSubmit={handleContactSubmit} className="space-y-4">
+                      <input type="hidden" name="form-name" value="contact" />
+                      <div>
+                        <Input name="name" placeholder="Your Name" required />
+                      </div>
+                      <div>
+                        <Input name="email" type="email" placeholder="Your Email" required />
+                      </div>
+                      <div>
+                        <Textarea name="message" placeholder="How can we help?" required rows={4} />
+                      </div>
+                      <Button type="submit" className="w-full">Send Message</Button>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+              </li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Onboarding</a></li>
+            </ul>
           </div>
 
-          <p className="text-center text-sm text-white/70">© {new Date().getFullYear()} MerchantHaus.io. All rights reserved.</p>
+          {/* Company Column */}
+          <div>
+            <h3 className="font-ubuntu font-bold text-foreground mb-4">COMPANY</h3>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">About</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">About Us</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Security</a></li>
+              <li>
+                <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
+                  <DialogTrigger asChild>
+                    <button className="text-muted-foreground hover:text-foreground transition-colors text-left">
+                      Contact
+                    </button>
+                  </DialogTrigger>
+                </Dialog>
+              </li>
+            </ul>
+          </div>
+
+          {/* Follow Us Column */}
+          <div>
+            <h3 className="font-ubuntu font-bold text-foreground mb-4">FOLLOW US</h3>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">LinkedIn</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Twitter</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Facebook</a></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Contact Information */}
+        <div className="mt-12 pt-8 border-t border-border space-y-2">
+          <div className="text-muted-foreground">
+            <span className="text-muted-foreground">Call:</span>{" "}
+            <a href="tel:1-505-600-6042" className="text-primary hover:underline">
+              1-505-600-6042
+            </a>
+          </div>
+          <div className="text-muted-foreground">
+            <span className="text-muted-foreground">Email:</span>{" "}
+            <a href="mailto:support@merchanthaus.io" className="text-primary hover:underline">
+              support@merchanthaus.io
+            </a>
+          </div>
+          <div className="text-muted-foreground">
+            <span className="text-muted-foreground">Address:</span> 1209 Mountain Road Pl NE Ste N, Albuquerque, NM 87110 US
+          </div>
+        </div>
+
+        {/* CTA Buttons */}
+        <div className="mt-8 flex flex-col sm:flex-row gap-4">
+          <Dialog open={isQuoteOpen} onOpenChange={setIsQuoteOpen}>
+            <DialogTrigger asChild>
+              <Button size="lg" className="bg-gradient-to-r from-primary to-secondary hover:opacity-90">
+                Get a Quote
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Get a Quote</DialogTitle>
+              </DialogHeader>
+              <form name="quote" method="POST" data-netlify="true" onSubmit={handleQuoteSubmit} className="space-y-4">
+                <input type="hidden" name="form-name" value="quote" />
+                <div>
+                  <Input name="company" placeholder="Company Name" required />
+                </div>
+                <div>
+                  <Input name="name" placeholder="Your Name" required />
+                </div>
+                <div>
+                  <Input name="email" type="email" placeholder="Your Email" required />
+                </div>
+                <div>
+                  <Input name="phone" type="tel" placeholder="Phone Number" required />
+                </div>
+                <div>
+                  <Textarea name="details" placeholder="Tell us about your payment processing needs" required rows={4} />
+                </div>
+                <Button type="submit" className="w-full">Submit Request</Button>
+              </form>
+            </DialogContent>
+          </Dialog>
+
+          <Button size="lg" variant="outline" asChild>
+            <a href="#hero">Get Started</a>
+          </Button>
+        </div>
+
+        {/* Copyright */}
+        <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
+          <p>
+            &copy; {new Date().getFullYear()} MerchantHaus. All rights reserved. | {" "}
+            <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a> | {" "}
+            <a href="#" className="hover:text-primary transition-colors">Terms and Conditions</a>
+          </p>
         </div>
       </div>
-
-      <style>{`
-        footer.footer-gradient {
-          background: linear-gradient(180deg, #e8003f 0%, rgba(232, 0, 63, 0) 100%);
-        }
-      `}</style>
     </footer>
   );
 };
