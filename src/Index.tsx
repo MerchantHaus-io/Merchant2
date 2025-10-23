@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { Hero } from "@/components/Logo-Banner";
 // Use the improved 3D carousel instead of the original PaymentSlider.
 import ImprovedPaymentSlider from "@/components/ImprovedPaymentSlider";
 import Footer from "@/components/Footer";
