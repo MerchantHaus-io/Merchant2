@@ -1,7 +1,7 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";import IntegrationsMarquee from "@/components/logo-banner";
 import ImprovedPaymentSlider from "@/components/Servicesshowcase";
-import ImprovedPaymentSlider from "@/components/PaymentSliderCarousel";
+import PaymentsSliderCarousel from "@/components/PaymentSliderCarousel";
 
 import Footer from "@/components/Footer";
 
