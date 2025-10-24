@@ -1,17 +1,22 @@
 import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";import IntegrationsMarquee from "@/components/logo-banner";
-import ImprovedPaymentSlider from "@/components/PaymentSlider.tsx";
-import PaymentsliderCarousel from "@/components/PaymentSliderCarousel";
-
+import { Hero } from "@/components/Hero";
+import IntegrationsMarquee from "@/components/IntegrationsMarquee";
+import ImprovedPaymentSlider from "@/components/ImprovedPaymentSlider";
+import LogoBanner from "@/components/logo-banner";
 import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background dark">
+    <div className="min-h-screen bg-background text-foreground">
       <Header />
-      <main>
+      <main className="flex flex-col gap-24 pb-24">
         <Hero />
-        <IntegrationsMarquee />
+        <section className="px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-6xl flex-col gap-16">
+            <IntegrationsMarquee />
+            <LogoBanner />
+          </div>
+        </section>
         <ImprovedPaymentSlider />
       </main>
       <Footer />

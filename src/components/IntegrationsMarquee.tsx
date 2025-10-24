@@ -25,21 +25,34 @@ const logos = [
 export const IntegrationsMarquee = () => {
   return (
     <section
-      className="py-12 sm:py-16"
+      className="flex flex-col items-center gap-10 rounded-3xl bg-card/60 px-6 py-12 text-center shadow-sm backdrop-blur sm:py-16"
       aria-label="Trusted integrations and technology partners"
     >
-      <div className="mx-auto max-w-5xl px-6 text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
+      <div className="max-w-4xl space-y-3">
+        <p
+          className="font-semibold uppercase tracking-[0.45em] text-muted-foreground"
+          style={{ fontSize: "clamp(0.7rem, 1.8vw, 0.85rem)" }}
+        >
           Integrations & Partnerships
         </p>
-        <h2 className="mt-3 text-2xl font-semibold text-foreground sm:text-3xl">
+        <h2
+          className="text-balance font-ubuntu font-bold text-foreground"
+          style={{ fontSize: "clamp(1.8rem, 4vw, 2.75rem)" }}
+        >
           Plug into the platforms your business already uses
         </h2>
+        <p
+          className="text-muted-foreground"
+          style={{ fontSize: "clamp(0.95rem, 2.1vw, 1.1rem)", lineHeight: "1.7" }}
+        >
+          MerchantHaus connects directly with the CRMs, ERPs, and ecommerce suites powering your operations so you can launch
+          new payment experiences without rebuilding your stack.
+        </p>
       </div>
-      <div className="marquee-wrapper mt-10">
+      <div className="marquee-wrapper w-full">
         <div className="marquee-track">
-          {[0, 1].map((loopIndex) =>
-            logos.map((logo) => (
+          {[0, 1].map(loopIndex =>
+            logos.map(logo => (
               <div
                 className="marquee-item"
                 key={`${logo.alt}-${loopIndex}`}
@@ -50,7 +63,7 @@ export const IntegrationsMarquee = () => {
                   alt={logo.alt}
                   loading="lazy"
                   height={96}
-                  className="h-20 w-auto object-contain"
+                  className="h-16 w-auto object-contain sm:h-20"
                 />
               </div>
             ))
