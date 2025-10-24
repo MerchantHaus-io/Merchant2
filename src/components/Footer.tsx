@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -72,11 +73,31 @@ const Footer = () => {
           <div>
             <h3 className="font-ubuntu font-bold text-foreground mb-4">PRODUCTS</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Omnichannel</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Gateway Services</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Fraud Detection</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Mobile Commerce</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Modern POS</a></li>
+              <li>
+                <a href="/pages/apply.html" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Omnichannel
+                </a>
+              </li>
+              <li>
+                <Link to="/services" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Gateway Services
+                </Link>
+              </li>
+              <li>
+                <Link to="/services#fraud" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Fraud Detection
+                </Link>
+              </li>
+              <li>
+                <Link to="/services#mobile" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Mobile Commerce
+                </Link>
+              </li>
+              <li>
+                <Link to="/services#pos" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Modern POS
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -84,7 +105,11 @@ const Footer = () => {
           <div>
             <h3 className="font-ubuntu font-bold text-foreground mb-4">RESOURCES</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Developer Docs</a></li>
+              <li>
+                <a href="https://developer.visa.com/" className="text-muted-foreground hover:text-foreground transition-colors" target="_blank" rel="noreferrer">
+                  Developer Docs
+                </a>
+              </li>
               <li>
                 <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
                   <DialogTrigger asChild>
@@ -112,8 +137,16 @@ const Footer = () => {
                   </DialogContent>
                 </Dialog>
               </li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Onboarding</a></li>
+              <li>
+                <Link to="/blogs/vamp" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <a href="mailto:sales@merchanthaus.io" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Onboarding
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -121,17 +154,25 @@ const Footer = () => {
           <div>
             <h3 className="font-ubuntu font-bold text-foreground mb-4">COMPANY</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">About</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">About Us</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Security</a></li>
               <li>
-                <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-                  <DialogTrigger asChild>
-                    <button className="text-muted-foreground hover:text-foreground transition-colors text-left">
-                      Contact
-                    </button>
-                  </DialogTrigger>
-                </Dialog>
+                <Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">
+                  About
+                </Link>
+              </li>
+              <li>
+                <a href="/pages/privacy.html" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Privacy
+                </a>
+              </li>
+              <li>
+                <a href="/pages/security.html" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Security
+                </a>
+              </li>
+              <li>
+                <a href="mailto:support@merchanthaus.io" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Contact
+                </a>
               </li>
             </ul>
           </div>
@@ -140,9 +181,36 @@ const Footer = () => {
           <div>
             <h3 className="font-ubuntu font-bold text-foreground mb-4">FOLLOW US</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">LinkedIn</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Twitter</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Facebook</a></li>
+              <li>
+                <a
+                  href="https://www.linkedin.com/company/merchanthaus"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://twitter.com"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Twitter
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://facebook.com"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Facebook
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -209,8 +277,8 @@ const Footer = () => {
         <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
           <p>
             &copy; {new Date().getFullYear()} MerchantHaus. All rights reserved. | {" "}
-            <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a> | {" "}
-            <a href="#" className="hover:text-primary transition-colors">Terms and Conditions</a>
+            <a href="/pages/privacy.html" className="hover:text-primary transition-colors">Privacy Policy</a> | {" "}
+            <a href="/pages/terms.html" className="hover:text-primary transition-colors">Terms and Conditions</a>
           </p>
         </div>
       </div>

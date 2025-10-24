@@ -1,7 +1,17 @@
 import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import shieldLogo from "@/assets/RedShield.png";
+
+const navItems = [
+  { label: "Home", to: "/" },
+  { label: "Services", to: "/services" },
+  { label: "About", to: "/about" },
+  { label: "Blog", to: "/blogs/vamp" },
+];
+
+const linkClasses =
+  "hover:text-accent transition-colors";
 
 export const Header = () => {
   return (
@@ -17,10 +27,20 @@ export const Header = () => {
                 </h1>
               </Link>
               <nav className="hidden lg:flex space-x-6 text-sm font-medium text-foreground/85">
-                <a href="/" className="hover:text-accent transition-colors">Home</a>
-                <a href="/pages/services.html" className="hover:text-accent transition-colors">Services</a>
-                <a href="/pages/about.html" className="hover:text-accent transition-colors">About</a>
-                <a href="/pages/contact.html" className="hover:text-accent transition-colors">Contact</a>
+                {navItems.map(({ label, to }) => (
+                  <NavLink
+                    key={to}
+                    to={to}
+                    className={({ isActive }) =>
+                      `${linkClasses} ${isActive ? "text-accent" : ""}`.trim()
+                    }
+                  >
+                    {label}
+                  </NavLink>
+                ))}
+                <a href="mailto:support@merchanthaus.io" className={linkClasses}>
+                  Contact
+                </a>
               </nav>
             </div>
 
@@ -29,8 +49,13 @@ export const Header = () => {
                 <a href="tel:15056006042" className="hover:text-accent transition-colors">
                   1-505-600-6042
                 </a>
-                <Button variant="outline" size="sm" className="rounded-full border-accent text-accent hover:bg-accent hover:text-white" asChild>
-                  <a href="/pages/contact.html">Contact Support</a>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="rounded-full border-accent text-accent hover:bg-accent hover:text-white"
+                  asChild
+                >
+                  <a href="mailto:support@merchanthaus.io">Contact Support</a>
                 </Button>
               </div>
               <Button size="sm" className="rounded-full bg-gradient-to-r from-primary to-[#f43f5e] hover:opacity-90" asChild>
