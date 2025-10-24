@@ -219,7 +219,7 @@ const Footer = () => {
         <div className="mt-12 pt-8 border-t border-border space-y-2">
           <div className="text-muted-foreground">
             <span className="text-muted-foreground">Call:</span>{" "}
-            <a href="tel:1-505-600-6042" className="text-primary hover:underline">
+            <a href="tel:15056006042" className="text-primary hover:underline">
               1-505-600-6042
             </a>
           </div>

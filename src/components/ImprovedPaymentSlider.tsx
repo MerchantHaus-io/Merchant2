@@ -98,13 +98,25 @@ const ImprovedPaymentSlider = () => {
   return (
     <section id="services" className="relative min-h-[90vh] overflow-hidden py-24">
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-black/10 to-black/30" />
-      <div className="max-w-5xl mx-auto text-center px-6 mb-16">
-        <p className="text-sm uppercase tracking-[0.4em] brand-mark">MerchantHaus.io Services</p>
-        <h2 className="text-4xl sm:text-5xl font-ubuntu font-bold text-white drop-shadow-lg">
+      <div className="mx-auto mb-16 max-w-5xl px-6 text-center">
+        <p
+          className="font-semibold uppercase tracking-[0.45em] text-rose-200"
+          style={{ fontSize: "clamp(0.75rem, 2vw, 0.95rem)" }}
+        >
+          MerchantHaus.io Services
+        </p>
+        <h2
+          className="mx-auto mt-4 max-w-3xl text-balance font-ubuntu font-bold text-white drop-shadow-lg"
+          style={{ fontSize: "clamp(2.25rem, 5vw, 3.75rem)", lineHeight: 1.1 }}
+        >
           Built for scale across every payment touchpoint
         </h2>
-        <p className="mt-6 text-base sm:text-lg text-white/80 max-w-2xl mx-auto">
-          Explore the capabilities that power MerchantHaus.io—from mobile checkout to risk automation. Tap any card to visit the full service catalog.
+        <p
+          className="mx-auto mt-6 max-w-2xl text-white/85"
+          style={{ fontSize: "clamp(1rem, 2.2vw, 1.25rem)", lineHeight: 1.7 }}
+        >
+          Explore the capabilities that power MerchantHaus.io—from mobile checkout to risk automation. Tap any card to visit
+          the full service catalog.
         </p>
       </div>
 
@@ -127,8 +139,18 @@ const ImprovedPaymentSlider = () => {
                 >
                   <div className="card-sheen" aria-hidden="true" />
                   <div className="space-y-3">
-                    <h3 className="text-xl font-semibold font-ubuntu">{detail.label}</h3>
-                    <p className="text-sm text-white/80 leading-relaxed">{detail.description}</p>
+                    <h3
+                      className="font-ubuntu font-semibold text-white"
+                      style={{ fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)" }}
+                    >
+                      {detail.label}
+                    </h3>
+                    <p
+                      className="text-white/80"
+                      style={{ fontSize: "clamp(0.9rem, 2vw, 1.05rem)", lineHeight: 1.6 }}
+                    >
+                      {detail.description}
+                    </p>
                   </div>
                 </div>
               </a>
