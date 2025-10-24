@@ -22,30 +22,28 @@ const LogoBanner = () => {
   ];
 
   return (
-    <section className="py-12 overflow-hidden bg-background/50">
-      <div className="relative">
-        {/* Left fade overlay */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background/50 to-transparent z-10 pointer-events-none" />
-        
-        {/* Right fade overlay */}
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background/50 to-transparent z-10 pointer-events-none" />
-        
-        <div className="flex animate-scroll">
+    <div
+      className="marquee-wrapper relative overflow-hidden rounded-3xl bg-background/80 py-[clamp(2.5rem,5vw,4rem)] shadow-sm"
+      aria-label="MerchantHaus ecosystem partners"
+    >
+      <div className="px-10">
+        <div className="marquee-track">
           {[...logos, ...logos].map((logo, index) => (
             <div
               key={index}
-              className="flex-shrink-0 mx-8 grayscale hover:grayscale-0 transition-all duration-300"
+              className="marquee-item opacity-70 transition duration-300 hover:opacity-100"
             >
               <img
                 src={`/logos/${logo}`}
-                alt={`Partner logo ${index}`}
-                className="h-12 w-auto object-contain opacity-60 hover:opacity-100"
+                alt={`Partner logo ${index + 1}`}
+                className="h-[clamp(2.25rem,4vw,3rem)] w-auto object-contain"
+                loading={index < logos.length ? "eager" : "lazy"}
               />
             </div>
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
