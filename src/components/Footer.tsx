@@ -85,6 +85,7 @@ const Footer = () => {
             <h3 className="font-ubuntu font-bold text-foreground mb-4">RESOURCES</h3>
             <ul className="space-y-2">
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Developer Docs</a></li>
+              <li><a href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
               <li>
                 <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
                   <DialogTrigger asChild>
