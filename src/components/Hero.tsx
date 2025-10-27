@@ -68,7 +68,7 @@ export const Hero = () => {
       id="hero"
       className="hero relative flex items-center overflow-hidden"
     >
-      <div className="absolute inset-0 -z-20">
+      <div className="absolute inset-0 -z-20 pointer-events-none">
         <img
           src={heroImage}
           alt="Merchant payment devices with abstract lighting"
@@ -86,8 +86,11 @@ export const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1a0b11]/40 to-[#dc143c]/24" />
       </div>
 
-      <div className="relative z-10 w-full">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-28 grid lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] gap-14 items-center">
+      <div className="relative z-30 w-full">
+        <div
+          className="max-w-7xl mx-auto px-6 lg:px-8 py-28 grid lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] gap-14 items-center"
+          style={{ minHeight: "min(100vh, 820px)" }}
+        >
           <div className="text-left space-y-7 bg-background/40 backdrop-blur-sm rounded-3xl p-8 shadow-lg shadow-black/10 border border-white/10">
             <h1 className="font-ubuntu font-bold leading-[1.1] text-foreground" style={{ fontSize: 'clamp(2.5rem, 8vw, 5.5rem)' }}>
               <span className="whitespace-nowrap">
@@ -152,7 +155,7 @@ export const Hero = () => {
             </div>
           </div>
 
-          <div className="relative h-[420px] lg:h-[560px] overflow-hidden rounded-[2.5rem] border border-white/10 shadow-2xl shadow-black/30">
+          <div className="relative self-stretch min-h-[420px] lg:min-h-[560px] overflow-hidden rounded-[2.5rem] border border-white/10 shadow-2xl shadow-black/30">
             <div className="hero-image-frame">
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent" />
               <img src={heroImage} alt="MerchantHaus.io platform dashboard" className="hero-showcase" />
