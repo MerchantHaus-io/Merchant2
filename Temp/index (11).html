@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MerchantHaus.io – Payments Simplified</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Root colour variables */
+        :root {
+            --crimson: #DC143C;
+            --dark-bg: #0f0f10;
+            --light-bg: #ffffff;
+            --teal: #00CEDB;
+            --silver-grey: #A9A9A9;
+        }
+        /* Global resets */
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--light-bg);
+            line-height: 1.6;
+        }
+        a { color: inherit; text-decoration: none; }
+
+        /* Utility classes */
+        /* A simple utility to hide elements when using the "hidden" class without Tailwind. */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--dark-bg);
+            color: rgba(255,255,255,0.85);
+            font-size: 0.85rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            z-index: 60;
+        }
+        .top-bar .tagline {
+            font-family: 'Ubuntu', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--crimson);
+            white-space: nowrap;
+        }
+        .top-bar .contact-info {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .top-bar .contact-info a,
+        .top-bar .contact-info span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-left: 1rem;
+            color: rgba(255,255,255,0.85);
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .top-bar .contact-info a:hover { color: var(--crimson); }
+        .top-bar .contact-info i { width: 1rem; height: 1rem; }
+        @media (max-width: 640px) {
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            .top-bar .contact-info {
+                gap: 0.5rem;
+            }
+            .top-bar .contact-info a,
+            .top-bar .contact-info span {
+                margin-left: 0;
+            }
+        }
+
+        /* Main Header */
+        .main-header {
+            background: var(--light-bg);
+            color: var(--dark-bg);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .main-header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .main-header nav {
+            display: none;
+        }
+        .main-header nav a {
+            margin-left: 1.25rem;
+            font-weight: 500;
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .main-header nav a:hover { color: var(--crimson); }
+        .onboarding-btn {
+            display: none;
+            background: var(--crimson);
+            color: var(--light-bg);
+            border-radius: 9999px;
+            padding: 0.5rem 1.25rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: background 0.2s ease;
+        }
+        .onboarding-btn:hover { background: #b51731; }
+        .mobile-toggle {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            color: var(--crimson);
+        }
+        /* Show desktop nav and onboarding button on medium screens */
+        @media (min-width: 768px) {
+            .main-header nav {
+                display: flex;
+                gap: 1rem;
+            }
+            .onboarding-btn { display: inline-block; }
+            .mobile-toggle { display: none; }
+        }
+        /* Mobile menu */
+        #mobile-menu {
+            background: var(--light-bg);
+            color: var(--dark-bg);
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 100%;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #e5e5e5;
+        }
+        #mobile-menu a {
+            display: block;
+            padding: 0.75rem 0;
+            font-weight: 500;
+            color: inherit;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            transition: color 0.2s ease;
+        }
+        #mobile-menu a:last-child { border-bottom: none; }
+        #mobile-menu a:hover { color: var(--crimson); }
+        #mobile-menu .mobile-onboard-btn {
+            margin-top: 0.75rem;
+            display: inline-block;
+            background: var(--crimson);
+            color: var(--light-bg);
+            border-radius: 9999px;
+            padding: 0.5rem 1.25rem;
+            text-align: center;
+        }
+        #mobile-menu .mobile-onboard-btn:hover { background: #b51731; }
+
+        /* Hero section */
+        .hero {
+            position: relative;
+            padding: clamp(4rem, 8vw, 7rem) 1.5rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--dark-bg);
+        }
+        .hero-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            gap: 3rem;
+            align-items: center;
+        }
+        @media (min-width: 1024px) {
+            .hero-inner {
+                grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+            }
+        }
+        .hero-text h1 {
+            font-family: 'Ubuntu', sans-serif;
+            font-size: clamp(2.8rem, 6vw, 4rem);
+            line-height: 1.1;
+            margin: 0 0 1rem;
+        }
+        .hero-text h1 span {
+            display: inline-block;
+        }
+        .hero-text p {
+            font-size: 1rem;
+            max-width: 60ch;
+            margin-bottom: 1.5rem;
+            color: rgba(255,255,255,0.85);
+        }
+
+        /* Word transition styles for hero headline */
+        #agility-word,
+        #empower-word,
+        #growth-word {
+            display: inline-block;
+            transition: opacity 0.4s ease;
+        }
+
+
+        /* Animation for hero text to slide upward and fade in */
+        .hero-text {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideFadeIn 1.2s ease-out 0.4s forwards;
+        }
+        @keyframes slideFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .hero-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .hero-cta a,
+        .hero-cta button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            padding: 0.85rem 1.6rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+        .hero-cta a.primary {
+            background: var(--crimson);
+            color: var(--light-bg);
+        }
+        .hero-cta a.primary:hover { background: #b51731; }
+        .hero-cta a.secondary {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.35);
+            color: var(--light-bg);
+        }
+        .hero-cta a.secondary:hover {
+            background: rgba(255,255,255,0.16);
+        }
+        .hero-image {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 55%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Fade the image into transparency from the middle to the left so the hero text can sit clearly on a dark background. */
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 45%, black 100%);
+            mask-image: linear-gradient(to right, transparent 0%, black 45%, black 100%);
+            opacity: 0;
+            transform: translateX(20%) scale(1.05);
+            animation: heroImageReveal 1.8s ease-out forwards;
+        }
+        @keyframes heroImageReveal {
+            to {
+                opacity: 1;
+                transform: translateX(0%) scale(1);
+            }
+        }
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            padding: 3rem 1rem;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        .footer-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            gap: 2rem;
+        }
+        @media (min-width: 640px) {
+            .footer-inner {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 1024px) {
+            .footer-inner {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        .footer-col h4 {
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--light-bg);
+        }
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-col li { margin-bottom: 0.5rem; }
+        .footer-col a {
+            color: rgba(255,255,255,0.8);
+            transition: color 0.2s ease;
+        }
+        .footer-col a:hover { color: var(--crimson); }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+            color: rgba(255,255,255,0.6);
+        }
+    </style>
+</head>
+<body>
+    <!-- Top bar -->
+    <div class="top-bar">
+        <div class="tagline">PLUG IN. PLAY. PROCESS</div>
+        <div class="contact-info">
+            <a href="tel:15056006042" title="Call us">
+                <span style="font-size:1rem;" aria-hidden="true">📞</span><span>1‑505‑600‑6042</span>
+            </a>
+            <a href="mailto:support@merchanthaus.io" title="Send us an email">
+                <span style="font-size:1rem;" aria-hidden="true">✉️</span><span>support@merchanthaus.io</span>
+            </a>
+            <span>
+                <span style="font-size:1rem;" aria-hidden="true">📍</span><span>1209 Mountain Road Pl NE Ste&nbsp;N, Albuquerque, NM 87110&nbsp;US</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Main header with navigation -->
+    <header class="main-header">
+        <div class="main-header-container">
+            <a href="/index.html" class="logo" style="font-family:'Ubuntu', sans-serif; font-weight:700; font-size:1.4rem;">MerchantHaus.io</a>
+            <nav>
+                <a href="/payment-services.html">Omnichannel</a>
+                <a href="/payment-services.html#modern-pos">Modern POS</a>
+                <a href="/payment-services.html#mobile">Mobile</a>
+                <a href="/payment-services.html#global">Global</a>
+                <a href="/payment-services.html#analytics">Analytics</a>
+                <a href="/payment-services.html#fraud">Fraud</a>
+                <a href="/payment-services.html#options">Options</a>
+            </nav>
+            <a href="/apply.html" class="onboarding-btn">Onboarding</a>
+            <button id="mobile-menu-toggle" class="mobile-toggle" aria-label="Toggle menu">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <nav id="mobile-menu" class="hidden">
+            <a href="/payment-services.html" class="mobile-menu-link">Omnichannel</a>
+            <a href="/payment-services.html#modern-pos" class="mobile-menu-link">Modern POS</a>
+            <a href="/payment-services.html#mobile" class="mobile-menu-link">Mobile</a>
+            <a href="/payment-services.html#global" class="mobile-menu-link">Global</a>
+            <a href="/payment-services.html#analytics" class="mobile-menu-link">Analytics</a>
+            <a href="/payment-services.html#fraud" class="mobile-menu-link">Fraud</a>
+            <a href="/payment-services.html#options" class="mobile-menu-link">Options</a>
+            <a href="/apply.html" class="mobile-onboard-btn">Onboarding</a>
+        </nav>
+    </header>
+
+    <!-- Hero section -->
+    <section class="hero" aria-label="MerchantHaus payments overview">
+        <div class="hero-image">
+            <img src="hero.webp" alt="MerchantHaus payment services backdrop">
+        </div>
+        <div class="hero-inner">
+            <div class="hero-text">
+                <h1>
+                    <span>Payment</span>
+                    <span id="agility-word" style="color: var(--crimson);">Agility</span><br/>
+                    <span>That</span>
+                    <span id="empower-word" style="color: var(--teal);">Empowers</span><br/>
+                    <span>Your</span>
+                    <span id="growth-word" style="color: #f2c94c;">Growth</span>
+                </h1>
+                <p>Build your business profile in minutes and start accepting cards, ACH, and secure pay links across every channel—online, in‑store or on the go. Reduce costs, onboard quickly and safeguard every transaction with advanced fraud protection.</p>
+                <div class="hero-cta">
+                    <a href="/apply.html" class="primary">Get Started</a>
+                    <a href="#" class="secondary">Discover My Best Fit</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="/payment-services.html#omnichannel">Omnichannel</a></li>
+                    <li><a href="/payment-services.html#modern-pos">Modern POS</a></li>
+                    <li><a href="/payment-services.html#mobile">Mobile Commerce</a></li>
+                    <li><a href="/payment-services.html#global">Global Expansion</a></li>
+                    <li><a href="/payment-services.html#analytics">Analytics</a></li>
+                    <li><a href="/payment-services.html#fraud">Fraud Detection</a></li>
+                    <li><a href="/payment-services.html#options">Payment Options</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/developers/index.html">Developer Docs</a></li>
+                    <li><a href="/support/index.html">Support Center</a></li>
+                    <li><a href="/pricing.html">Pricing</a></li>
+                    <li><a href="/payment-services.html#onboarding">Onboarding</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about.html">About Us</a></li>
+                    <li><a href="/security.html">Security</a></li>
+                    <li><a href="/support/index.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <ul>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2025 MerchantHaus.io — All rights reserved.</div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile menu toggle
+            const toggleBtn = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const links = document.querySelectorAll('.mobile-menu-link');
+            if (toggleBtn && mobileMenu) {
+                toggleBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+                links.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                });
+            }
+
+            // Hero word cycling
+            const agilityWords = ['Agility', 'Speed', 'Flexibility', 'Efficiency', 'Velocity', 'Responsiveness', 'Adaptability', 'Acceleration'];
+            const empowerWords = ['Empowers', 'Strengthens', 'Boosts', 'Energizes', 'Amplifies', 'Enhances', 'Elevates', 'Enables'];
+            const growthWords = ['Growth', 'Success', 'Scaling', 'Expansion', 'Progress', 'Advancement', 'Prosperity', 'Momentum'];
+            const agilityEl = document.getElementById('agility-word');
+            const empowerEl = document.getElementById('empower-word');
+            const growthEl = document.getElementById('growth-word');
+            let cycleIndex = 0;
+            // Helper to update a word element with fade effect
+            function updateWord(el, words, index) {
+                if (!el) return;
+                // Fade out
+                el.style.opacity = 0;
+                setTimeout(() => {
+                    el.textContent = words[index];
+                    el.style.opacity = 1;
+                }, 300);
+            }
+            // Initialize words
+            agilityEl.textContent = agilityWords[0];
+            empowerEl.textContent = empowerWords[0];
+            growthEl.textContent = growthWords[0];
+            function rotateWords() {
+                cycleIndex = (cycleIndex + 1) % agilityWords.length;
+                updateWord(agilityEl, agilityWords, cycleIndex);
+                setTimeout(() => updateWord(empowerEl, empowerWords, cycleIndex), 500);
+                setTimeout(() => updateWord(growthEl, growthWords, cycleIndex), 1000);
+            }
+            // Start cycling every 6 seconds
+            setInterval(rotateWords, 6000);
+        });
+    </script>
+</body>
+</html>
