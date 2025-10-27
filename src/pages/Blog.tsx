@@ -7,7 +7,7 @@ const Blog = () => {
   const blogPosts = [
     {
       id: "vamp",
-      title: "Visa's VAMP: A New Era for Fraud and Dispute Management",
+      title: "Visa's VAMP: A Nw Era for Fraud and Dispute Management",
       description: "The world of payment processing is always evolving, and staying ahead means understanding Visa's new Visa Acquirer Monitoring Program (VAMP). This global framework redefines how fraud and disputes are tracked and managed across the payment ecosystem.",
       date: "October 24, 2025",
       path: "src/pages/blogs/vamp.html"
