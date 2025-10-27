@@ -86,7 +86,7 @@ export const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1a0b11]/40 to-[#dc143c]/24" />
       </div>
 
-      <div className="relative z-30 w-full">
+      <div className="relative z-40 w-full">
         <div
           className="max-w-7xl mx-auto px-6 lg:px-8 py-28 grid lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] gap-14 items-center"
           style={{ minHeight: "min(100vh, 820px)" }}
@@ -95,7 +95,7 @@ export const Hero = () => {
             <h1 className="font-ubuntu font-bold leading-[1.1] text-foreground" style={{ fontSize: 'clamp(2.5rem, 8vw, 5.5rem)' }}>
               <span className="whitespace-nowrap">
                 Payment{" "}
-                <span className="inline-block transition-all duration-500" style={{ color: color1 }}>
+                <span className="inline-block transition-all duration-500 relative z-50" style={{ color: color1 }}>
                   {word1}
                 </span>
               </span>
