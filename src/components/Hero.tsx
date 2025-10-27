@@ -1,7 +1,7 @@
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
 import { Zap, Lock, BarChart3 } from "lucide-react";
-import heroImage from "../assets/hero-image.jpg";
+import heroImage from "../assets/hero.webp";
 
 const word1Options = [
   "Control", "Simplicity", "Advantage", "Empowerment", "Opportunity", 
@@ -77,7 +77,12 @@ export const Hero = () => {
       </div>
 
       <div className="absolute inset-0 -z-10 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0c1018]/88 via-[#0c1018]/32 to-transparent" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(90deg, rgba(12,16,24,0) 0%, rgba(12,16,24,0) 39%, rgba(12,16,24,0.18) 46%, rgba(12,16,24,0.42) 52%, rgba(12,16,24,0.68) 58%, rgba(12,16,24,0.85) 60%, rgba(12,16,24,0.95) 72%, rgba(12,16,24,1) 100%)"
+          }}
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1a0b11]/40 to-[#dc143c]/24" />
       </div>
 
@@ -208,10 +213,15 @@ export const Hero = () => {
           position: absolute;
           inset: 0;
           background: linear-gradient(
-            to right,
-            rgba(0, 0, 0, 0.6) 0%,
-            rgba(0, 0, 0, 0.0) 50%,
-            rgba(0, 0, 0, 0.2) 100%
+            90deg,
+            rgba(12, 16, 24, 0) 0%,
+            rgba(12, 16, 24, 0) 39%,
+            rgba(12, 16, 24, 0.18) 46%,
+            rgba(12, 16, 24, 0.42) 52%,
+            rgba(12, 16, 24, 0.68) 58%,
+            rgba(12, 16, 24, 0.85) 60%,
+            rgba(12, 16, 24, 0.95) 72%,
+            rgba(12, 16, 24, 1) 100%
           );
           pointer-events: none;
           z-index: -5;
