@@ -66,79 +66,111 @@ export const Hero = () => {
   return (
     <section
       id="hero"
-      className="hero relative flex items-center overflow-hidden"
+      className="hero relative isolate overflow-hidden"
+      // keep your existing min height via CSS below
     >
-      <div className="absolute inset-0 -z-20 pointer-events-none">
-        <img
-          src={heroImage}
-          alt="Merchant payment devices with abstract lighting"
-          className="hero-bg-image"
-        />
-      </div>
+      {/* Full-bleed background image */}
+      <img
+        src={heroImage}
+        alt="MerchantHaus — payments in motion"
+        className="hero-bg absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
+      />
 
-      <div className="absolute inset-0 -z-10 pointer-events-none">
+      {/* Transparent fades/overlays for contrast */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Horizontal vignette (left-side emphasis for readability) */}
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(90deg, rgba(12,16,24,0) 0%, rgba(12,16,24,0) 39%, rgba(12,16,24,0.18) 46%, rgba(12,16,24,0.42) 52%, rgba(12,16,24,0.68) 58%, rgba(12,16,24,0.85) 60%, rgba(12,16,24,0.95) 72%, rgba(12,16,24,1) 100%)"
+            background:
+              "linear-gradient(90deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.76) 12%, rgba(255,255,255,0.56) 24%, rgba(255,255,255,0.34) 38%, rgba(255,255,255,0.16) 52%, rgba(255,255,255,0.08) 66%, rgba(255,255,255,0.02) 78%, rgba(255,255,255,0) 90%)",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#1a0b11]/40 to-[#dc143c]/24" />
+        {/* Subtle bottom fade */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/30" />
+        {/* Brand tint pass (very light) */}
+        <div className="absolute inset-0 bg-gradient-to-bl from-transparent via-[#1a0b11]/24 to-[#dc143c]/10" />
       </div>
 
-      <div className="relative z-40 w-full">
+      {/* Content on top of image */}
+      <div className="relative z-10 w-full">
         <div
-          className="max-w-7xl mx-auto px-6 lg:px-8 py-28 grid lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] gap-14 items-center"
+          className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-24 lg:px-8"
           style={{ minHeight: "min(100vh, 820px)" }}
         >
-          <div className="text-left space-y-7 bg-background/40 backdrop-blur-sm rounded-3xl p-8 shadow-lg shadow-black/10 border border-white/10">
-            <h1 className="font-ubuntu font-bold leading-[1.1] text-foreground" style={{ fontSize: 'clamp(2.5rem, 8vw, 5.5rem)' }}>
+          {/* Left: Rotating Headline + Body + CTAs — no glass card */}
+          <div className="text-left space-y-7">
+            <h1
+              className="font-ubuntu font-bold leading-[1.1] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]"
+              style={{ fontSize: "clamp(2.5rem, 8vw, 5.5rem)" }}
+            >
               <span className="whitespace-nowrap">
                 Payment{" "}
-                <span className="inline-block transition-all duration-500 relative z-50" style={{ color: color1 }}>
+                <span
+                  className="relative inline-block transition-all duration-500"
+                  style={{ color: color1 }}
+                >
                   {word1}
                 </span>
               </span>
               <br />
               <span className="whitespace-nowrap">
                 That{" "}
-                <span className="inline-block transition-all duration-500" style={{ color: color2 }}>
+                <span
+                  className="relative inline-block transition-all duration-500"
+                  style={{ color: color2 }}
+                >
                   {word2}
                 </span>
               </span>
               <br />
               <span className="whitespace-nowrap">
                 Your{" "}
-                <span className="inline-block transition-all duration-500" style={{ color: color3 }}>
+                <span
+                  className="relative inline-block transition-all duration-500"
+                  style={{ color: color3 }}
+                >
                   {word3}
                 </span>
               </span>
             </h1>
 
-            <div className="flex items-center gap-6 text-foreground" style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1.125rem)' }}>
+            <div
+              className="flex items-center gap-6 text-white/95"
+              style={{ fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)" }}
+            >
               <div className="flex items-center gap-2">
-                <Zap className="w-5 h-5 text-primary" />
+                <Zap className="h-5 w-5 text-primary" />
                 <span className="font-semibold">Speed.</span>
               </div>
               <div className="flex items-center gap-2">
-                <Lock className="w-5 h-5 text-secondary" />
+                <Lock className="h-5 w-5 text-secondary" />
                 <span className="font-semibold">Security.</span>
               </div>
               <div className="flex items-center gap-2">
-                <BarChart3 className="w-5 h-5 text-accent" />
+                <BarChart3 className="h-5 w-5 text-accent" />
                 <span className="font-semibold">Scale.</span>
               </div>
             </div>
 
-            <p className="text-foreground/90 max-w-xl leading-relaxed" style={{ fontSize: 'clamp(1rem, 1.75vw, 1.25rem)' }}>
-              Create your business profile in minutes and start accepting cards, ACH, and secure pay links — online, in-store, or on the go. Reduce costs, onboard quickly, and safeguard every transaction with advanced fraud protection and chargeback defense.
+            <p
+              className="max-w-xl leading-relaxed text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]"
+              style={{ fontSize: "clamp(1rem, 1.75vw, 1.25rem)" }}
+            >
+              Create your business profile in minutes and start accepting cards,
+              ACH, and secure pay links — online, in-store, or on the go. Reduce
+              costs, onboard quickly, and safeguard every transaction with
+              advanced fraud protection and chargeback defense.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <div className="flex flex-col gap-4 pt-2 sm:flex-row">
               <Button
                 size="lg"
-                className="rounded-full font-semibold bg-gradient-to-r from-[#DC143C] via-[#e54b71] to-[#f97b9d] hover:opacity-90 shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5"
-                style={{ fontSize: 'clamp(1rem, 1.75vw, 1.25rem)', padding: 'clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 3vw, 2rem)' }}
+                className="rounded-full font-semibold bg-gradient-to-r from-[#DC143C] via-[#e54b71] to-[#f97b9d] shadow-lg transition-all hover:-translate-y-0.5 hover:opacity-90 hover:shadow-xl"
+                style={{
+                  fontSize: "clamp(1rem, 1.75vw, 1.25rem)",
+                  padding: "clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 3vw, 2rem)",
+                }}
                 asChild
               >
                 <a href="/pages/services.html">Explore payment services</a>
@@ -146,89 +178,45 @@ export const Hero = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full font-semibold border-white/40 text-white hover:bg-white/20 backdrop-blur"
-                style={{ fontSize: 'clamp(1rem, 1.75vw, 1.25rem)', padding: 'clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 3vw, 2rem)' }}
+                className="rounded-full font-semibold border-white/40 text-white backdrop-blur hover:bg-white/20"
+                style={{
+                  fontSize: "clamp(1rem, 1.75vw, 1.25rem)",
+                  padding: "clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 3vw, 2rem)",
+                }}
                 asChild
               >
                 <a href="/pages/about.html">Meet the team</a>
               </Button>
             </div>
           </div>
-
-          <div className="relative self-stretch min-h-[420px] lg:min-h-[560px] overflow-hidden rounded-[2.5rem] border border-white/10 shadow-2xl shadow-black/30">
-            <div className="hero-image-frame">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent" />
-              <img src={heroImage} alt="MerchantHaus.io platform dashboard" className="hero-showcase" />
-              <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-background/20 to-transparent" />
-            </div>
-          </div>
         </div>
       </div>
 
       <style>{`
+        /* Full section size */
         section.hero {
           min-height: min(100vh, 820px);
         }
 
-        .hero-image-frame {
-          position: absolute;
-          inset: 0;
-          overflow: hidden;
-          border-radius: 2.5rem;
-          transform: translateZ(0);
-        }
-
-        .hero-showcase {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+        /* Background image animation: soft ken-burns + fade in */
+        .hero-bg {
+          animation: heroFadeIn 1.2s ease-out forwards, heroKenBurns 26s ease-in-out infinite alternate;
           filter: saturate(1.05) contrast(1.05);
-          animation: heroSlideFade 1.8s ease-out forwards;
-        }
-
-        .hero-bg-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
           transform: translateZ(0);
-          animation: heroSlideFade 1.8s ease-out forwards;
         }
 
-        @keyframes heroSlideFade {
-          0% {
-            transform: translateX(-100%);
-            opacity: 0;
-          }
-          50% {
-            transform: translateX(-50%);
-            opacity: 0.5;
-          }
-          100% {
-            transform: translateX(0);
-            opacity: 1;
-          }
+        @keyframes heroFadeIn {
+          0% { opacity: 0; transform: scale(1.03); }
+          100% { opacity: 1; transform: scale(1); }
         }
 
-        section.hero::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            90deg,
-            rgba(12, 16, 24, 0) 0%,
-            rgba(12, 16, 24, 0) 39%,
-            rgba(12, 16, 24, 0.18) 46%,
-            rgba(12, 16, 24, 0.42) 52%,
-            rgba(12, 16, 24, 0.68) 58%,
-            rgba(12, 16, 24, 0.85) 60%,
-            rgba(12, 16, 24, 0.95) 72%,
-            rgba(12, 16, 24, 1) 100%
-          );
-          pointer-events: none;
-          z-index: -5;
+        @keyframes heroKenBurns {
+          0% { transform: scale(1) translate3d(0, 0, 0); }
+          100% { transform: scale(1.06) translate3d(1.5%, 1.2%, 0); }
         }
+
+        /* Remove old frame/pseudo layers if they linger */
+        section.hero::after { content: none !important; }
       `}</style>
     </section>
   );
