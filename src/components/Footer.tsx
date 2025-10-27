@@ -21,12 +21,7 @@ const Footer = () => {
       body: new URLSearchParams(formData as any).toString(),
     })
       .then(() => {
-        toast({
-          title: "Message sent!",
-          description: "We'll get back to you shortly.",
-        });
-        form.reset();
-        setIsContactOpen(false);
+        window.location.href = "/pages/thankyou.html";
       })
       .catch(() => {
         toast({
@@ -48,12 +43,7 @@ const Footer = () => {
       body: new URLSearchParams(formData as any).toString(),
     })
       .then(() => {
-        toast({
-          title: "Quote request sent!",
-          description: "Our team will contact you soon.",
-        });
-        form.reset();
-        setIsQuoteOpen(false);
+        window.location.href = "/pages/thankyou.html";
       })
       .catch(() => {
         toast({
@@ -73,10 +63,12 @@ const Footer = () => {
             <h3 className="font-ubuntu font-bold text-foreground mb-4">PRODUCTS</h3>
             <ul className="space-y-2">
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Omnichannel</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Gateway Services</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Fraud Detection</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Mobile Commerce</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Modern POS</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Mobile Commerce</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Global Expansion</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Analytics</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Fraud Detection</a></li>
+              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Payment Options</a></li>
             </ul>
           </div>
 
@@ -85,7 +77,6 @@ const Footer = () => {
             <h3 className="font-ubuntu font-bold text-foreground mb-4">RESOURCES</h3>
             <ul className="space-y-2">
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Developer Docs</a></li>
-              <li><a href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
               <li>
                 <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
                   <DialogTrigger asChild>
@@ -122,7 +113,6 @@ const Footer = () => {
           <div>
             <h3 className="font-ubuntu font-bold text-foreground mb-4">COMPANY</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">About</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">About Us</a></li>
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Security</a></li>
               <li>
