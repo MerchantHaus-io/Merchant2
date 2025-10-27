@@ -2,7 +2,6 @@ import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import IntegrationsMarquee from "@/components/IntegrationsMarquee";
 import ImprovedPaymentSlider from "@/components/ImprovedPaymentSlider";
-import LogoBanner from "@/components/logo-banner";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -14,7 +13,6 @@ const Index = () => {
         <section className="px-4 sm:px-6 lg:px-8">
           <div className="mx-auto flex max-w-6xl flex-col gap-16">
             <IntegrationsMarquee />
-            <LogoBanner />
           </div>
         </section>
         <ImprovedPaymentSlider />
