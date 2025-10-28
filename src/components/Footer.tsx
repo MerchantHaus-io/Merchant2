@@ -85,6 +85,11 @@ const Footer = () => {
             <ul className="space-y-2">
               <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Developer Docs</a></li>
               <li>
+                <a href="/integrations" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Integration Directory
+                </a>
+              </li>
+              <li>
                 <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
                   <DialogTrigger asChild>
                     <button className="text-muted-foreground hover:text-foreground transition-colors text-left">
