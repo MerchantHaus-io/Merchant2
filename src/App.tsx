@@ -1,13 +1,16 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
+import Home from './pages/Home';
+import IntegrationDirectory from './pages/IntegrationDirectory';
 
 export default function App() {
   return (
     <Layout>
-      <main>
-        <h1>Welcome to MerchantHaus</h1>
-        <p>Your unified merchant infrastructure platform.</p>
-      </main>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/integrations" element={<IntegrationDirectory />} />
+      </Routes>
     </Layout>
   );
 }
