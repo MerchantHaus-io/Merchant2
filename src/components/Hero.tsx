@@ -2,6 +2,7 @@ import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
 import { Zap, Lock, BarChart3 } from "lucide-react";
 import heroImage from "../assets/hero.webp";
+import heroVideo from "../assets/hero.webm";
 
 const word1Options = [
   "Control", "Simplicity", "Advantage", "Empowerment", "Opportunity", 
@@ -69,10 +70,14 @@ export const Hero = () => {
       className="hero relative isolate overflow-hidden"
       // keep your existing min height via CSS below
     >
-      {/* Full-bleed background image */}
-      <img
-        src={heroImage}
-        alt="MerchantHaus — payments in motion"
+      {/* Full-bleed background video */}
+      <video
+        src={heroVideo}
+        poster={heroImage}
+        autoPlay
+        loop
+        muted
+        playsInline
         className="hero-bg absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
       />
 
