@@ -1,9 +1,9 @@
-import { Header } from "@/components/Header";
+import { useEffect, type SyntheticEvent } from "react";
+
 import Footer from "@/components/Footer";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { ArrowLeft, CalendarDays, Clock, Sparkles, ShieldAlert } from "lucide-react";
+import { Header } from "@/components/Header";
+
+import shieldLogo from "@/assets/shield.webp";
 import vampHeader from "@/assets/vamp_header.webp";
 import vampMetrics from "@/assets/vamp_metrics.webp";
 import vampSecurity from "@/assets/vamp_security.webp";
@@ -12,17 +12,17 @@ const ratioPoints = [
   {
     label: "TC40s (Fraud Reports)",
     description:
-      "Cases where a cardholder tells their issuer a transaction was unauthorized. These are the earliest signals that fraud controls missed an event.",
+      "Cases where a cardholder reports an unauthorized transaction. They signal that fraud controls missed an event.",
   },
   {
     label: "TC15s (All Disputes)",
     description:
-      "The complete universe of chargebacks, from classic fraud to product quality or processing errors. Under VAMP, every TC15 counts against the ratio.",
+      "The complete universe of chargebacks, from classic fraud to product quality or processing errors. Every TC15 now counts against the ratio.",
   },
   {
     label: "TC05s (Settled Transactions)",
     description:
-      "All settled transactions for the month. The denominator Visa uses to benchmark portfolio health across the network.",
+      "All settled transactions for the month. Visa uses this denominator to benchmark portfolio health across the network.",
   },
 ];
 
@@ -30,7 +30,7 @@ const impactPoints = [
   {
     title: "Unified risk management",
     body:
-      "Fraud and service disputes now share a single risk score. Merchants must address fulfillment, customer support, and fraud prevention with equal urgency.",
+      "Fraud and service disputes now share a single score. Merchants must address fulfillment, customer support, and fraud prevention with equal urgency.",
   },
   {
     title: "Excessive thresholds",
@@ -72,143 +72,283 @@ const actionSteps = [
   },
 ];
 
+const createFallbackHandler = (fallback: string) =>
+  (event: SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = event.currentTarget;
+    target.onerror = null;
+    target.src = fallback;
+  };
+
 const Vamp = () => {
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const observerOptions: IntersectionObserverInit = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          return;
+        }
+
+        const target = entry.target as HTMLElement;
+
+        if (target.dataset.staggerParent !== undefined) {
+          const staggerItems = target.querySelectorAll<HTMLElement>(".stagger-item");
+          const firstItem = staggerItems[0];
+
+          if (firstItem && firstItem.classList.contains("fade-up-active")) {
+            obs.unobserve(target);
+            return;
+          }
+
+          staggerItems.forEach((item, index) => {
+            if (!item.classList.contains("initial-hidden")) {
+              item.classList.add("initial-hidden");
+            }
+
+            window.setTimeout(() => {
+              item.classList.remove("initial-hidden");
+              item.classList.add("fade-up-active");
+            }, index * 100);
+          });
+
+          obs.unobserve(target);
+          return;
+        }
+
+        if (target.dataset.animatePop !== undefined) {
+          target.classList.remove("initial-hidden");
+          target.classList.add("pop-in-active");
+          obs.unobserve(target);
+          return;
+        }
+
+        if (target.dataset.animate !== undefined) {
+          target.classList.remove("initial-hidden");
+          target.classList.add("fade-up-active");
+          obs.unobserve(target);
+        }
+      });
+    }, observerOptions);
+
+    const initialDelay = 1.8;
+    let delayCounter = 0;
+
+    const animateElements = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-animate]")
+    );
+
+    animateElements.forEach((element) => {
+      if (element.dataset.animatePop !== undefined) {
+        return;
+      }
+
+      element.style.animationDelay = `${initialDelay + delayCounter * 0.15}s`;
+      delayCounter += 1;
+      observer.observe(element);
+    });
+
+    const popElements = document.querySelectorAll<HTMLElement>("[data-animate-pop]");
+    popElements.forEach((element) => {
+      element.style.animationDelay = `${initialDelay + delayCounter * 0.15 + 0.5}s`;
+      observer.observe(element);
+    });
+
+    const staggerParents = document.querySelectorAll<HTMLElement>("[data-stagger-parent]");
+    staggerParents.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col bg-neutral-light text-neutral-dark">
+    <div className="min-h-screen bg-neutral-light text-neutral-dark">
       <Header />
-      <main className="flex-1">
-        <section className="relative isolate overflow-hidden">
-          <div className="absolute inset-0 -z-10">
-            <img
-              src={vampHeader}
-              alt="Abstract global payment network"
-              className="h-full w-full object-cover opacity-60"
-            />
-            <div className="absolute inset-0 bg-purple-dark/80 mix-blend-multiply" />
-          </div>
-          <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-24 sm:px-6">
-            <Badge className="self-start bg-crimson text-white/90">Risk &amp; Compliance</Badge>
-            <h1 className="text-4xl font-semibold text-white sm:text-5xl">
-              Visa's VAMP: A New Era for Fraud and Dispute Management
-            </h1>
-            <p className="max-w-3xl text-lg text-white/80">
-              Visa's Acquirer Monitoring Program (VAMP) replaces separate fraud and dispute programs with a unified scorecard. Here's what ISOs, PayFacs, and sponsor banks need to know before thresholds reset in 2025.
-            </p>
-            <div className="flex flex-wrap items-center gap-4 text-sm text-white/70">
-              <span className="flex items-center gap-2">
-                <CalendarDays className="h-4 w-4" /> October 24, 2025
-              </span>
-              <span className="flex items-center gap-2">
-                <Clock className="h-4 w-4" /> 8 min read
-              </span>
-            </div>
-            <Button
-              asChild
-              variant="outline"
-              className="self-start rounded-full border-white/50 bg-white/10 text-white backdrop-blur transition hover:bg-white/20"
-            >
-              <Link to="/blog" className="flex items-center gap-2">
-                <ArrowLeft className="h-4 w-4" /> Back to insights
-              </Link>
-            </Button>
-          </div>
-        </section>
-
-        <article className="mx-auto flex max-w-4xl flex-col gap-16 px-4 py-16 sm:px-6 lg:px-8">
-          <section className="space-y-6 text-lg leading-8 text-neutral-dark/85">
-            <p>
-              VAMP consolidates the Visa Fraud Monitoring Program (VFMP) and the Visa Dispute Monitoring Program (VDMP) into a single, global framework. Acquirers are scored on every merchant they board, and high-risk activity now surfaces faster than in the legacy model.
-            </p>
-            <div className="rounded-3xl border border-cyber-teal/40 bg-white/80 p-6 shadow-sm">
-              <h2 className="text-2xl font-semibold text-neutral-dark">The VAMP ratio at a glance</h2>
-              <p className="mt-3 text-base text-neutral-dark/80">
-                Visa blends fraud, all dispute types, and total settled transactions into a single ratio:
-              </p>
-              <div className="mt-6 rounded-2xl bg-neutral-light p-4 text-center font-mono text-base text-neutral-dark shadow-inner">
-                VAMP Ratio = ( TC40 Fraud Reports + TC15 Disputes ) ÷ TC05 Settled Transactions
-              </div>
-              <ul className="mt-6 space-y-4">
-                {ratioPoints.map((point) => (
-                  <li key={point.label} className="rounded-2xl border border-silver-grey/40 bg-white/70 p-4">
-                    <h3 className="text-base font-semibold text-crimson">{point.label}</h3>
-                    <p className="mt-2 text-sm text-neutral-dark/75">{point.description}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-
-          <section className="grid gap-10 lg:grid-cols-[1.2fr,1fr] lg:items-start">
-            <div className="space-y-6 text-lg text-neutral-dark/85">
-              <h2 className="text-3xl font-semibold text-neutral-dark">Key changes and how they impact merchants</h2>
-              <p>
-                The VAMP rollout is more than a rebranding exercise. It introduces a consolidated risk model that touches portfolio economics, sponsor relationships, and merchant operations.
-              </p>
-              <ul className="space-y-5">
-                {impactPoints.map((impact) => (
-                  <li key={impact.title} className="rounded-3xl border border-silver-grey/50 bg-white/80 p-5 shadow-sm">
-                    <h3 className="text-lg font-semibold text-neutral-dark capitalize">{impact.title}</h3>
-                    <p className="mt-2 text-sm text-neutral-dark/75">{impact.body}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="space-y-6">
+      <main className="flex-1 px-4 py-12 sm:px-8">
+        <div className="mx-auto max-w-4xl font-inter leading-relaxed">
+          <header className="mb-12 border-b-4 border-crimson pt-8">
+            <div className="flex items-center gap-4">
               <img
-                src={vampMetrics}
-                alt="Analyst reviewing VAMP metrics"
-                className="w-full rounded-3xl object-cover shadow-lg"
+                src={shieldLogo}
+                alt="MerchantHaus Shield Logo"
+                className="h-12 w-12 sm:h-16 sm:w-16"
+                onError={createFallbackHandler(
+                  "https://placehold.co/64x64/DC143C/FFFFFF?text=MH"
+                )}
               />
-              <div className="rounded-3xl border border-crimson/50 bg-white/85 p-6">
-                <h3 className="flex items-center gap-2 text-base font-semibold text-crimson">
-                  <ShieldAlert className="h-5 w-5" /> Enumeration monitoring is now explicit
-                </h3>
-                <p className="mt-3 text-sm text-neutral-dark/75">
-                  Card testing attacks receive dedicated scoring. Merchants should pair gateway velocity controls with issuer data to stop low value probes before they harm the broader ratio.
+              <div>
+                <h1 className="logo-text text-4xl font-extrabold text-neutral-dark sm:text-5xl">
+                  MerchantHaus <span className="text-crimson">Blog</span>
+                </h1>
+                <p className="tagline-pulse mt-2 text-lg tracking-wider text-silver-grey">
+                  plug in, play, process.
                 </p>
               </div>
             </div>
-          </section>
+          </header>
 
-          <section className="grid gap-10 lg:grid-cols-[1fr,1.1fr] lg:items-center">
-            <div className="rounded-3xl border border-purple-light/40 bg-purple-dark/90 p-8 text-white shadow-xl">
-              <h2 className="flex items-center gap-3 text-3xl font-semibold">
-                <Sparkles className="h-7 w-7 text-cyber-teal" /> Staying compliant in the VAMP era
+          <article className="space-y-12 text-neutral-dark/90">
+            <section className="space-y-6">
+              <h2
+                id="main-title"
+                className="text-3xl font-bold text-neutral-dark sm:text-4xl"
+              >
+                Visa&apos;s VAMP: A New Era for Fraud and Dispute Management
               </h2>
-              <p className="mt-4 text-white/80">
-                MerchantHaus guides ISOs and PayFacs through new sponsor expectations with proactive analytics, dispute coaching, and fraud prevention expertise.
+              <p
+                className="initial-hidden border-b border-neutral-dark/10 pb-4 text-lg italic text-neutral-dark/80"
+                data-animate
+              >
+                The world of payment processing is always evolving, and staying ahead means understanding Visa&apos;s new Visa
+                Acquirer Monitoring Program (VAMP). This global framework redefines how fraud and disputes are tracked and
+                managed across the payment ecosystem.
               </p>
-              <img
-                src={vampSecurity}
-                alt="Secure payment illustration"
-                className="mt-8 w-full rounded-2xl object-cover opacity-90"
-              />
-            </div>
-            <div className="space-y-6">
-              <h3 className="text-3xl font-semibold text-neutral-dark">Actionable steps for your portfolio</h3>
-              <p className="text-lg text-neutral-dark/80">
-                The most successful programs stay ahead of network reporting. Prioritize these initiatives with every merchant cohort.
+              <div className="masked-image-container shape-1 initial-hidden" data-animate>
+                <img
+                  src={vampHeader}
+                  alt="Abstract global payment network"
+                  onError={createFallbackHandler(
+                    "https://placehold.co/1200x400/3C2F53/FFFFFF?text=VAMP+Header+Image"
+                  )}
+                />
+                <div className="masked-image-overlay-text">
+                  Shaping the Future of Payments
+                </div>
+              </div>
+            </section>
+
+            <section className="space-y-6">
+              <h3
+                className="section-heading text-2xl font-bold text-crimson initial-hidden"
+                data-animate
+              >
+                What is VAMP and How Does It Work?
+              </h3>
+              <p className="initial-hidden" data-animate>
+                VAMP officially began replacing the previous monitoring programs—the Visa Fraud Monitoring Program (VFMP) and the
+                Visa Dispute Monitoring Program (VDMP)—starting in April 2025.
               </p>
-              <ul className="space-y-4">
-                {actionSteps.map((step) => (
-                  <li key={step.title} className="rounded-3xl border border-silver-grey/50 bg-white/80 p-5">
-                    <h4 className="text-lg font-semibold text-neutral-dark capitalize">{step.title}</h4>
-                    <p className="mt-2 text-sm text-neutral-dark/75">{step.detail}</p>
+              <p className="initial-hidden" data-animate>
+                The program&apos;s core is a single, unified metric called the VAMP Ratio, which measures an acquirer&apos;s or merchant&apos;s
+                overall risk profile.
+              </p>
+              <h4
+                className="initial-hidden text-xl font-bold text-neutral-dark"
+                data-animate
+              >
+                The VAMP Ratio Calculation
+              </h4>
+              <p className="initial-hidden" data-animate>
+                The ratio combines two critical components of card-not-present (CNP) transaction risk:
+              </p>
+              <div className="math-block initial-hidden" data-animate-pop>
+                <p className="text-center text-base text-neutral-dark">
+                  VAMP Ratio = ( TC40 Fraud Reports + TC15 Disputes ) ÷ TC05 Settled Transactions
+                </p>
+                <ul className="mt-4 list-disc space-y-2 pl-5" data-stagger-parent>
+                  {ratioPoints.map((point) => (
+                    <li key={point.label} className="stagger-item initial-hidden">
+                      <span className="font-semibold text-crimson">{point.label}:</span> {point.description}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+
+            <section className="space-y-6">
+              <div className="masked-image-container shape-2 initial-hidden" data-animate>
+                <img
+                  src={vampMetrics}
+                  alt="Data analysis and trends"
+                  onError={createFallbackHandler(
+                    "https://placehold.co/1200x500/8E6FBC/FFFFFF?text=VAMP+Metrics+Image"
+                  )}
+                />
+                <div className="masked-image-overlay-text">Understanding the Metrics</div>
+              </div>
+
+              <h3
+                className="section-heading text-2xl font-bold text-crimson initial-hidden"
+                data-animate
+              >
+                Key Changes and Merchant Impact
+              </h3>
+              <p className="initial-hidden" data-animate>
+                VAMP&apos;s consolidation into one framework and the calculation of the new ratio bring several major implications for
+                merchants:
+              </p>
+              <ul className="space-y-4" data-stagger-parent>
+                {impactPoints.map((impact) => (
+                  <li
+                    key={impact.title}
+                    className="stagger-item initial-hidden rounded-2xl border border-[hsl(0_0%_66%/0.4)] bg-white/70 p-5"
+                  >
+                    <h4 className="text-lg font-semibold text-neutral-dark capitalize">{impact.title}</h4>
+                    <p className="mt-2 text-sm text-neutral-dark/80">{impact.body}</p>
                   </li>
                 ))}
               </ul>
-            </div>
-          </section>
+            </section>
 
-          <section className="rounded-3xl border border-silver-grey/40 bg-white/80 p-8 text-sm text-neutral-dark/70 shadow-sm">
-            <p>
-              Posted by the MerchantHaus Compliance Team · <time dateTime="2025-10-24">October 24, 2025</time>
-            </p>
-            <p className="mt-2">
-              Need help modelling your merchants against the new thresholds? <a href="/pages/contact.html" className="text-crimson underline decoration-dotted underline-offset-4 hover:text-crimson/80">Talk with MerchantHaus.</a>
-            </p>
-          </section>
-        </article>
+            <section className="space-y-6">
+              <div className="masked-image-container shape-3 initial-hidden" data-animate>
+                <img
+                  src={vampSecurity}
+                  alt="Secure payment solutions"
+                  onError={createFallbackHandler(
+                    "https://placehold.co/1200x350/3C2F53/FFFFFF?text=VAMP+Security+Image"
+                  )}
+                />
+                <div className="masked-image-overlay-text">Protecting Your Transactions</div>
+              </div>
+
+              <h3
+                className="section-heading text-2xl font-bold text-crimson initial-hidden"
+                data-animate
+              >
+                Staying Compliant: Actionable Steps
+              </h3>
+              <p className="initial-hidden" data-animate>
+                Compliance is crucial, and merchants can take proactive steps to manage their risk and stay below VAMP&apos;s thresholds:
+              </p>
+              <div className="callout initial-hidden" data-animate>
+                <ul className="list-disc space-y-3 pl-5" data-stagger-parent>
+                  {actionSteps.map((step) => (
+                    <li key={step.title} className="stagger-item initial-hidden">
+                      <span className="font-semibold text-cyber-teal">{step.title}:</span> {step.detail}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <p className="initial-hidden text-lg font-medium text-neutral-dark" data-animate>
+                VAMP is a signal from Visa that fraud prevention and dispute management must be a top priority. By understanding this
+                new framework and proactively implementing strong controls, your business can protect its transactional integrity and
+                continue to grow securely.
+              </p>
+            </section>
+
+            <footer className="initial-hidden border-t border-silver-grey/50 pt-8 text-sm text-silver-grey" data-animate>
+              <p>
+                Posted by the MerchantHaus Compliance Team · <time dateTime="2025-10-24">October 24, 2025</time>
+              </p>
+              <p className="mt-2">
+                Need help modelling your merchants against the new thresholds?{" "}
+                <a
+                  href="/pages/contact.html"
+                  className="text-crimson underline decoration-dotted underline-offset-4 hover:text-crimson/80"
+                >
+                  Talk with MerchantHaus.
+                </a>
+              </p>
+            </footer>
+          </article>
+        </div>
       </main>
       <Footer />
     </div>
