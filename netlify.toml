@@ -4,3 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  NPM_FLAGS = "--prefer-offline --no-audit"
+  NPM_CONFIG_REGISTRY = "https://registry.npmjs.org/"
+  CI = "false"
+  NODE_OPTIONS = "--max-old-space-size=4096"
