@@ -1,24 +1,30 @@
-import { useState } from "react";
+import { type FormEvent, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { useToast } from "./ui/use-toast";
 
+const encodeFormData = (formData: FormData): string => {
+  const pairs = Array.from(formData.entries()).map(([key, value]) => [key, typeof value === "string" ? value : value.name]);
+  return new URLSearchParams(pairs).toString();
+};
+
 const Footer = () => {
   const { toast } = useToast();
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
 
-  const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
+  const handleContactSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
     const formData = new FormData(form);
+    const body = encodeFormData(formData);
 
     fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData as any).toString(),
+      body,
     })
       .then(() => {
         window.location.href = "/pages/thankyou.html";
@@ -32,15 +38,16 @@ const Footer = () => {
       });
   };
 
-  const handleQuoteSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
+  const handleQuoteSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
     const formData = new FormData(form);
+    const body = encodeFormData(formData);
 
     fetch("/", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData as any).toString(),
+      body,
     })
       .then(() => {
         window.location.href = "/pages/thankyou.html";

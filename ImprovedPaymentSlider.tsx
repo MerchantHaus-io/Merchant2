@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { type CSSProperties, useEffect, useMemo, useState } from "react";
 import {
   Smartphone,
   Shuffle,
@@ -10,7 +10,20 @@ import {
   Landmark,
   ShieldAlert,
   Globe2,
+  type LucideIcon,
 } from "lucide-react";
+
+type Service = {
+  icon: LucideIcon;
+  name: string;
+  description: string;
+};
+
+type SliderStyle = CSSProperties & {
+  "--quantity": string;
+};
+
+type CardStyle = Pick<CSSProperties, "transform" | "zIndex">;
 
 /**
  * ImprovedPaymentSlider
@@ -29,7 +42,7 @@ export default function ImprovedPaymentSlider() {
   // Define the services to show in the carousel. Each entry contains an icon,
   // title, description and some optional features/benefits. You can edit
   // these values to customise the slider for your own use‑case.
-  const services = useMemo(
+  const services = useMemo<ReadonlyArray<Service>>(
     () => [
       {
         icon: Smartphone,
@@ -95,7 +108,7 @@ export default function ImprovedPaymentSlider() {
   // properties in JS rather than CSS so we can assign z‑index based on the
   // card’s rotational position. Cards on the front half of the carousel get
   // higher z‑index values than those on the back half.
-  const cardStyles = useMemo(() => {
+  const cardStyles = useMemo<CardStyle[]>(() => {
     const quantity = services.length;
     const angle = 360 / quantity;
     const radius = 380; // distance from the centre; adjust to tweak layout
@@ -115,7 +128,14 @@ export default function ImprovedPaymentSlider() {
         zIndex,
       };
     });
-  }, [services.length, currentIndex]);
+  }, [services, currentIndex]);
+
+  const sliderStyle = useMemo<SliderStyle>(
+    () => ({
+      "--quantity": `${services.length}`,
+    }),
+    [services]
+  );
 
   // Auto‑advance the carousel every 8 seconds. When a user clicks on a card
   // the index updates immediately and the interval continues from the new
@@ -125,7 +145,7 @@ export default function ImprovedPaymentSlider() {
       setCurrentIndex((prev) => (prev + 1) % services.length);
     }, 8000);
     return () => clearInterval(timer);
-  }, [services.length]);
+  }, [services]);
 
   // Handle clicking on a card. We update the current index so that the
   // clicked item becomes the new front card. This causes all cards to
@@ -148,10 +168,7 @@ export default function ImprovedPaymentSlider() {
           {/* Replace with your own logo or shield image */}
           <div className="shield-placeholder" />
         </div>
-        <div
-          className="slider-3d"
-          style={{ ['--quantity' as any]: services.length } as any}
-        >
+        <div className="slider-3d" style={sliderStyle}>
           {services.map((service, idx) => {
             const { transform, zIndex } = cardStyles[idx];
             return (

@@ -22,6 +22,12 @@ type CardDetail = {
   accentRgb: string;
 };
 
+type CardCustomStyle = CSSProperties & {
+  "--glow-color": string;
+  "--accent-hex": string;
+  "--accent-rgb": string;
+};
+
 const cardDetails: CardDetail[] = [
   {
     icon: CreditCard,
@@ -195,10 +201,10 @@ const ImprovedPaymentSlider = () => {
                 >
                   {group.map(card => {
                     const Icon = card.icon;
-                    const cardStyle: CSSProperties = {
-                      ["--glow-color" as any]: card.glowColor,
-                      ["--accent-hex" as any]: card.accentHex,
-                      ["--accent-rgb" as any]: card.accentRgb,
+                    const cardStyle: CardCustomStyle = {
+                      "--glow-color": card.glowColor,
+                      "--accent-hex": card.accentHex,
+                      "--accent-rgb": card.accentRgb,
                     };
 
                     return (
